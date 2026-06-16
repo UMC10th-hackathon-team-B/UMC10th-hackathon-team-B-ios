@@ -1,0 +1,41 @@
+# ============ Xcode ============
+.DS_Store
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+# ============ Build ============
+build/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# ============ Swift Package Manager ============
+.build/
+.swiftpm/
+Packages/
+Package.resolved
+
+# ============ CocoaPods ============
+Pods/
+*.xcworkspace
+
+# ============ 보안 (중요!) ============
+*.xcconfig       # API Key 들어갈 파일
+Config.swift     # API Key 들어갈 파일
+Secrets.swift
+
+# ============ 기타 ============
+*.log
+*.swp
+.idea/

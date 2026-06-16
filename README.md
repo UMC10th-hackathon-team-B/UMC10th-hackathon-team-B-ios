@@ -2,7 +2,7 @@
 <img width="257" height="136" alt="스크린샷 2026-01-09 오전 12 29 23" src="https://github.com/user-attachments/assets/b43ab4ef-564e-4f16-b2d7-0b3b5224af8d" />
 
 
-> 계란주의보: 주제 및 예시사진
+> 계란주의보: 현재 위치의 자외선 지수와 날씨를 기반으로 맞춤형 알림을 제공하고, 선크림 도포 상태를 귀여운 계란 캐릭터로 시각화하는 iOS 앱입니다.
 [![Swift](https://img.shields.io/badge/Swift-5-orange.svg)]()
 [![Xcode](https://img.shields.io/badge/Xcode-26.0.1-blue.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)]()
@@ -39,14 +39,6 @@ For building and running the application you need:
 iOS 26.0 <br>
 Xcode 26.5 <br>
 Swift 5
-
-<br>
-
-# 🥚 SunEgg - 자외선 케어 앱
-
-> UMC 10기 해커톤 Team B iOS 레포지토리
-> 
-> 현재 위치의 자외선 지수와 날씨를 기반으로 맞춤형 알림을 제공하고, 선크림 도포 상태를 귀여운 계란 캐릭터로 시각화하는 iOS 앱입니다.
 
 <br>
 

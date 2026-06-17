@@ -12,7 +12,7 @@
 ## 👥 멤버
 | 리야 | 쵸파 | 큐큐 |  
 |:------:|:------:|:------:|  
-| <img src="https://github.com/user-attachments/assets/71d51935-82fc-4225-b2dc-3cebbd426a5c" width="200" height="300" alt="IMG_6758" /> | <img src="https://github.com/user-attachments/assets/95c98c91-e35a-40c4-a83f-b6b627d1d14f" width="200" height="300" /> | <img src="https://github.com/user-attachments/assets/17b81e2b-766d-4358-a1ef-74052ee39027" width="200" height="300" alt="IMG_6758" /> |
+| <img src="" width="200" height="300" alt="" /> | <img src="" width="200" height="300" /> | <img src="" width="200" height="300" alt="" /> |
 | PL | FE | FE |  
 | [GitHub](https://github.com/guingguing) | [GitHub](https://github.com/BeginnerKJS) | [GitHub](https://github.com/bella411) |
 
@@ -191,6 +191,10 @@ git checkout develop
 
 ## 🔖 브랜치 컨벤션
 
+### 🌿 브랜치 네이밍 규칙
+> **feat/#{issueNumber}-{기능내용}
+예 : feat/#1-home-view
+
 ### 🪵 브랜치 전략
 - **main** : 출시 가능한 상태의 코드를 모아두는 브랜치 (직접 push ❌, PR로만 병합)
 - **dev** : 다음 버전을 위해 개발 중인 코드를 모으는 브랜치 (기본 베이스)
@@ -199,8 +203,6 @@ git checkout develop
 
 ### 🌿 PR 네이밍 규칙
 > **[{태그}]-{기능설명}**
-
-[Feat] 리야 10주차 과제제출
 
 1. **태그**는 첫글자만 대문자로 작성합니다. 최대 4글자까지 작성합니다.
 2. **기능설명**은 짧은 영어 단어로, 띄어쓰기는 언더바(_)으로 연결합니다.
@@ -214,6 +216,10 @@ git checkout develop
 <br>
 
 ## 📌 이슈 컨벤션
+
+### 🌿 PR 네이밍 규칙
+> **[Feat]-{기능설명}**
+> 
 ### 📝 이슈 개요
 
 > 추가하려는 기능 간단 설명

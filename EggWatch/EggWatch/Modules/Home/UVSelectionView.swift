@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct UVSelectionView: View {
+    let onBack: () -> Void
+    let onOutingStart: () -> Void
+    
     @State private var selectedOption: String? = nil
     
     let options = ["5분 전", "15분 전", "30분 전", "1시간 전", "2시간 전", "안 발랐어요"]
@@ -18,7 +21,7 @@ struct UVSelectionView: View {
             // MARK: - 네비게이션 바
             HStack {
                 Button(action: {
-                    print("뒤로가기 클릭됨")
+                    onBack()
                 }) {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(.black)
@@ -80,10 +83,9 @@ struct UVSelectionView: View {
             
             // 4. 하단 외출하기 버튼
             Button(action: {
-                if let selected = selectedOption {
-                    print("\(selected) 선택 후 외출 시작!")
+                onOutingStart()
                 }
-            }) {
+            ) {
                 Text("외출하기")
                     .font(.semiBold20) //semiBold16 추가 후 수정필요
                     .foregroundColor(Color(red: 0.21, green: 0.21, blue: 0.21))
@@ -98,5 +100,7 @@ struct UVSelectionView: View {
 }
 
 #Preview {
-    UVSelectionView()
+    UVSelectionView(
+        onBack: { }, onOutingStart: { }
+    )
 }

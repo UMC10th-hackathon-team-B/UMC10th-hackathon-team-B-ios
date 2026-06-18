@@ -13,12 +13,14 @@ struct EggWatchNavigationBar: View {
                 Text("계란주의보")
                     .font(.medium16)
                     .foregroundStyle(.black)
+                    .frame(height: 30)
             case .outing:
                 Text("외출 중")
                     .font(.medium16)
                     .foregroundStyle(.black)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 4)
+                    .frame(height: 30)
                     .background(
                         Capsule()
                             .fill(Color.yellow01)

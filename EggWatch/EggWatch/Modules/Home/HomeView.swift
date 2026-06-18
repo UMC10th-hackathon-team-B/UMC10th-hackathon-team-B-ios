@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    let onOutingStart: () -> Void
+    let onAlertTap: () -> Void
+    
     //ViewModel 연결 (추후 HomeViewModel로 분리)
     @State private var weather = WeatherInfo()
     @State private var exposureLevel: Double = 0.0
@@ -22,7 +25,7 @@ struct HomeView: View {
                 mode: .home,
                 alertCount: alertCount,
                 onAlertTap: {
-                    showAlert = true
+                    onAlertTap()
                 }
             )
             .padding(.horizontal, 22)
@@ -36,9 +39,10 @@ struct HomeView: View {
                 Spacer(minLength: 20)
             }
             .padding(.horizontal, 43)
+            Spacer()
             HomeActionButtons(
                 onOutingStart: {
-                    print("외출 시작")
+                    onOutingStart()
                 },
                 onSunscreenRecord: {
                     //계란 효과
@@ -48,9 +52,13 @@ struct HomeView: View {
             .padding(.bottom, 80)
             .background(Color.white)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
     }
 }
 
 #Preview {
-    HomeView()
+    HomeView(
+        onOutingStart: { }, onAlertTap: { }
+    )
 }

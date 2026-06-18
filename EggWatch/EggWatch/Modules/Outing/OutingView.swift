@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct OutingView: View {
+    let onOutingEnd: () -> Void
+    let onAlertTap: () -> Void
+    
     @State private var weather = WeatherInfo()
     @State private var exposureLevel: Double = 0.0
     @State private var alertCount: Int = 2
@@ -23,7 +26,7 @@ struct OutingView: View {
                 mode: .outing,
                 alertCount: alertCount,
                 onAlertTap: {
-                    showAlert = true
+                    onAlertTap()
                 },
                 onRefreshTap: {
                     /* 날씨 새로고침 */
@@ -42,7 +45,7 @@ struct OutingView: View {
             .padding(.horizontal, 43)
             OutingActionButtons(
                 lastRecordTime: lastRecordTime, lastRecordAgo: lastRecordAgo, onOutingEnd: {
-                    print("외출 종료")
+                    onOutingEnd()
                 },
                 onSunscreenRecord: {
                     withAnimation(.easeInOut(duration: 0.4)) {
@@ -68,6 +71,8 @@ struct OutingView: View {
 }
 
 #Preview {
-    OutingView()
+    OutingView(
+        onOutingEnd: { }, onAlertTap: { }
+    )
 }
 

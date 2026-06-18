@@ -4,35 +4,35 @@ struct WeatherInfoCard: View {
     let weather: WeatherInfo
     
     var body: some View {
-        HStack(spacing: 100) {
-            VStack(alignment: .leading, spacing: 6) {
+        HStack(spacing: 101) {
+            VStack(alignment: .leading, spacing: 10) {
                 Text(weather.location)
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.medium16)
                     .foregroundStyle(Color.black)
-                HStack(alignment: .lastTextBaseline, spacing: 6) {
+                HStack(alignment: .center, spacing: 10) {
                     Text("\(weather.temperature)º")
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.semiBold20)
                         .foregroundStyle(.black)
                     Text(weather.condition)
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundStyle(.gray)
+                        .font(.regular12)
+                        .foregroundStyle(.black)
                 }
             }
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 10) {
                 Text("자외선 지수")
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.medium16)
                     .foregroundStyle(Color.black)
-                HStack(alignment: .lastTextBaseline, spacing: 6) {
+                HStack(alignment: .center, spacing: 10) {
                     Text("\(weather.uvIndex)")
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.semiBold20)
                         .foregroundStyle(.black)
                     Text(weather.uvLevel.rawValue)
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.regular12)
                         .foregroundStyle(.black)
                 }
             }
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 20)
+        .padding(.horizontal, 18)
+        .padding(.vertical, 28)
     }
 }

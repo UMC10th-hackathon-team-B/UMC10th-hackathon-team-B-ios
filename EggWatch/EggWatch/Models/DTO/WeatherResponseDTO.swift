@@ -1,7 +1,11 @@
-//
-//  WeatherResponseDTO.swift
-//  EggWatch
-//
-//  Created by JOON on 6/17/26.
-//
+/*import Foundation
 
+// 백엔드 응답 JSON 구조와 동일하게
+struct WeatherResponseDTO: Codable {
+    let location: String
+    let temperature: Int
+    let condition: String
+    let uvIndex: Int
+    let uvLevel: String
+}
+*/

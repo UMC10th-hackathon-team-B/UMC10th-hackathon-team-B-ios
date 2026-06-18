@@ -8,14 +8,18 @@ struct HomeActionButtons: View {
         HStack(spacing: 12) {
             Button(action: onOutingStart) {
                 Text("외출 시작")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.semiBold16)
                     .foregroundStyle(.black)
-                    .frame(width: 140, height: 48)
-                    .background(
-                        Capsule()
-                            .fill(Color.yellow)
-                    )
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 48)
+                    .glassEffect(
+                        .regular
+                            .tint(Color.yellow01.opacity(0.6))
+                            .interactive(),
+                        in: .capsule
+                        )
             }
+            /*
             Button(action: onSunscreenRecord) {
                 Text("자외선 차단제 기록")
                     .font(.system(size: 16, weight: .semibold))
@@ -27,7 +31,7 @@ struct HomeActionButtons: View {
                             .stroke(Color.black, lineWidth: 1.5)
                     )
             }
+             */
         }
-        .padding(.horizontal, 20)
     }
 }

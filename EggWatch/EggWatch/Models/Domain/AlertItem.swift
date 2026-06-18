@@ -1,7 +1,8 @@
-//
-//  AlertItem.swift
-//  EggWatch
-//
-//  Created by JOON on 6/17/26.
-//
+import Foundation
 
+struct AlertItem: Identifiable {
+    let id: UUID = UUID()
+    let title: String
+    let message: String
+    let time: String
+}

@@ -7,11 +7,13 @@ enum AppScreen {
     case home
     case uvSelection
     case outing
+    case outingEndConfirm
+    case alert
 }
 
 class AppRouter: ObservableObject {
     @Published var currentScreen: AppScreen = .splash
-    @Published var showAlert: Bool = false
+    private var previousScreen: AppScreen = .home
 
     func goToAgreement() {
         currentScreen = .agreement
@@ -24,6 +26,16 @@ class AppRouter: ObservableObject {
     }
     func goToOuting() {
         currentScreen = .outing
+    }
+    func goToOutingEndConfirm() {
+        currentScreen = .outingEndConfirm
+    }
+    func goToAlert() {
+        previousScreen = currentScreen
+        currentScreen = .alert
+    }
+    func goBack() {
+        currentScreen = previousScreen
     }
     func goToSplash() {
         currentScreen = .splash

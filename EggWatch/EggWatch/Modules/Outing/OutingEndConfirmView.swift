@@ -8,10 +8,9 @@ struct OutingEndConfirmView: View {
         VStack(spacing: 0) {
             Spacer()
             EggCharacterView(
-                exposureLevel: 0.0,
+                exposureLevel: 2,
                 statusMessage: "" // 텍스트 없이
             )
-            .padding(.bottom, 20)
             Text("외출을 종료할까요?")
                 .font(.semiBold20)
                 .foregroundStyle(.black)

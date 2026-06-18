@@ -32,10 +32,12 @@ extension Font {
     }
     
     // semi
+    static let semiBold12: Font = .chiron(.semi, size: 12)
     static let semiBold16: Font = .chiron(.semi, size: 16)
     static let semiBold20: Font = .chiron(.semi, size: 20)
     
     // medium
+    static let medium12: Font = .chiron(.medium, size: 12)
     static let medium14: Font = .chiron(.medium, size: 14)
     static let medium16: Font = .chiron(.medium, size: 16)
     

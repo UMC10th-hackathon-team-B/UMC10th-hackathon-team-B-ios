@@ -4,7 +4,7 @@ struct WeatherInfoCard: View {
     let weather: WeatherInfo
     
     var body: some View {
-        HStack(spacing: 101) {
+        HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 10) {
                 Text(weather.location)
                     .font(.medium16)
@@ -18,6 +18,9 @@ struct WeatherInfoCard: View {
                         .foregroundStyle(.black)
                 }
             }
+            .padding(.horizontal, 18)
+            .padding(.vertical, 10)
+            Spacer()
             VStack(alignment: .leading, spacing: 10) {
                 Text("자외선 지수")
                     .font(.medium16)
@@ -31,8 +34,10 @@ struct WeatherInfoCard: View {
                         .foregroundStyle(.black)
                 }
             }
+            .padding(.horizontal, 18)
+            .padding(.vertical, 10)
+
         }
-        .padding(.horizontal, 18)
         .padding(.vertical, 28)
     }
 }

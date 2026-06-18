@@ -5,22 +5,21 @@ struct EggWatchNavigationBar: View {
     let alertCount: Int
     let onAlertTap: () -> Void
     var onRefreshTap: (() -> Void)? = nil
+    var onLogoutTap: (() -> Void)? = nil
     
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 20) {
             switch mode {
             case .home:
                 Text("계란주의보")
                     .font(.medium16)
                     .foregroundStyle(.black)
-                    .frame(height: 30)
             case .outing:
                 Text("외출 중")
                     .font(.medium16)
                     .foregroundStyle(.black)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 4)
-                    .frame(height: 30)
                     .background(
                         Capsule()
                             .fill(Color.yellow01)
@@ -28,28 +27,29 @@ struct EggWatchNavigationBar: View {
             }
             Spacer()
             Button(action: {onRefreshTap?() }) {
-                Image(systemName: "arrow.clockwise")
+                Image(.clockwise)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 24, height: 24)
+                    .frame(width: 16, height: 16)
                     .foregroundStyle(.black)
             }
             Button(action: onAlertTap) {
-                Image(systemName: "bell")
+                Image(.bell)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 24, height: 24)
+                    .frame(width: 16, height: 16)
                     .foregroundStyle(.black)
-                if alertCount > 0 {
-                    Circle()
-                        .fill(Color.red)
-                        .frame(width: 8, height: 8)
-                        .offset(x: -10, y: -10)
-                }
+            }
+            Button(action: { onLogoutTap?() }) {
+                Image(.logout)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 16, height: 16)
+                    .foregroundStyle(.black)
             }
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 26)
+        .padding(.horizontal, 22)
+        .padding(.vertical, 24)
         .background(Color.white)
     }
 }

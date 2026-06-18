@@ -21,9 +21,9 @@ struct EggCharacterView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 160, height: 216)
-                .animation(.easeInOut(duration: 0.4), value: eggImageName)
+                .padding(.bottom, 20)
             Text(statusMessage)
-                .font(.medium14)
+                .font(.regular14)
                 .foregroundStyle(Color.black)
         }
     }

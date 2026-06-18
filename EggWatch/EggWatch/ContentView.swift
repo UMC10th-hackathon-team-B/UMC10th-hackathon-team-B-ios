@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var router = AppRouter()
-    @State private var alertCount: Int = 0
+
     var body: some View {
         Group {
             switch router.currentScreen {
@@ -31,14 +31,11 @@ struct ContentView: View {
                         router.goToUVSelection()
                     },
                     onAlertTap: {
-                        router.showAlert = true
+                        router.goToAlert()
                     }
                 )
-                .sheet(isPresented: $router.showAlert) {
-                    AlertView(alertCount: $alertCount)
-                }
-            
-            //외출 시작
+
+            // 외출 시작
             case .uvSelection:
                 UVSelectionView(
                     onBack: {
@@ -52,15 +49,31 @@ struct ContentView: View {
             case .outing:
                 OutingView(
                     onOutingEnd: {
-                        router.goToHome()
+                        router.goToOutingEndConfirm()
                     },
                     onAlertTap: {
-                        router.showAlert = true
+                        router.goToAlert()
                     }
                 )
-                .sheet(isPresented: $router.showAlert) {
-                    AlertView(alertCount: $alertCount)
-                }
+
+            // 외출 종료 확인
+            case .outingEndConfirm:
+                OutingEndConfirmView(
+                    onConfirm: {
+                        router.goToHome()
+                    },
+                    onCancel: {
+                        router.goToOuting()
+                    }
+                )
+
+            // 알림
+            case .alert:
+                AlertView(
+                    onBack: {
+                        router.goBack()
+                    }
+                )
             }
         }
         .environmentObject(router)

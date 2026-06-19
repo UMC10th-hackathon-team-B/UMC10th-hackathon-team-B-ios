@@ -12,8 +12,11 @@ enum AppScreen {
 }
 
 class AppRouter: ObservableObject {
-    @Published var currentScreen: AppScreen = .splash
+    @Published var currentScreen: AppScreen
     private var previousScreen: AppScreen = .home
+    init(initialScreen: AppScreen = .home) {
+            self.currentScreen = initialScreen
+        }
 
     func goToAgreement() {
         currentScreen = .agreement

@@ -1,7 +1,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var router = AppRouter()
+    @StateObject var router: AppRouter
+
+    init(initialScreen: AppScreen = .home) {
+        _router = StateObject(wrappedValue: AppRouter(initialScreen: initialScreen))
+    }
 
     var body: some View {
         Group {
@@ -18,11 +22,7 @@ struct ContentView: View {
 
             // 약관 동의
             case .agreement:
-                AgreementView(
-                    onConfirm: {
-                        router.goToHome()
-                    }
-                )
+                AgreementView(signupToken: nil, onConfirm: { router.goToHome() })
 
             // 홈 모드
             case .home:

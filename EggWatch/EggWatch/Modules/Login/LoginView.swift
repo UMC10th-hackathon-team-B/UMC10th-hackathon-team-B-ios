@@ -38,11 +38,9 @@ struct LoginView: View {
         Button {
             // TODO: 로그인 연동 코드 자리
         } label: {
-            Text("카카오로 시작하기")
-                .font(.semiBold16)
-                .foregroundStyle(.black)
-                .frame(maxWidth: .infinity)
-                .frame(height: 48)
+                Image("kakao")
+                    .resizable()
+                    .scaledToFit()
         }
         .glassEffect(
             .regular

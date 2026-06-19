@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     let onOutingStart: () -> Void
     let onAlertTap: () -> Void
+    let onLogout: () -> Void    // 로그아웃 실행 클로저
 
     //ViewModel 연결 (추후 HomeViewModel로 분리)
     @State private var weather = WeatherInfo()
@@ -53,7 +54,7 @@ struct HomeView: View {
                     .ignoresSafeArea()
                     .onTapGesture { showLogout = false }
                 LogoutView(isPresented: $showLogout) {
-                    // TODO: 로그아웃 로직 연결
+                    onLogout()      // 부모에서 받은 로그아웃 실행
                 }
             }
         }
@@ -82,7 +83,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(
-        onOutingStart: { }, onAlertTap: { }
-    )
+    HomeView(onOutingStart: { }, onAlertTap: { }, onLogout: { })
 }

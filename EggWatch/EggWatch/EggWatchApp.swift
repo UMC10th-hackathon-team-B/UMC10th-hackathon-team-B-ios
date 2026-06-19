@@ -27,7 +27,11 @@ struct EggWatchApp: App {
         WindowGroup {
             Group {
                 if isLoggedIn {
-                    ContentView(initialScreen: initialScreen)   // 로그인 후 이동할 화면 전달 (HOME or OUTING)
+                    ContentView(initialScreen: initialScreen, onLogout: {
+                        KeychainService.delete(key: KeychainService.Keys.accessToken)   // 액세스 토큰 삭제
+                        KeychainService.delete(key: KeychainService.Keys.refreshToken)  // 리프레시 토큰 삭제
+                        isLoggedIn = false      // 로그인 화면으로 이동
+                    })
                 } else {
                     LoginView(isLoggedIn: $isLoggedIn, initialScreen: $initialScreen)   // 로그인 상태와 이동할 화면을 LoginView와 공유
                 }

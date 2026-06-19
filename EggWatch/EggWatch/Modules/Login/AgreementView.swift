@@ -1,4 +1,12 @@
+//
+//  AgreementView.swift
+//  EggWatch
+//
+//  Created by 한지민 on 6/20/26.
+//
+
 import SwiftUI
+import Moya
 
 struct AgreementView: View {
     @Environment(\.dismiss) var dismiss
@@ -11,6 +19,9 @@ struct AgreementView: View {
     var isAllAgreed: Bool {
         agreeService && agreePrivacy && agreeLocation
     }
+    
+    let signupToken: String?                            // 신규 회원일 때 받은 임시 토큰
+    private let provider = MoyaProvider<AuthRouter>()   // Moya API 호출 객체
 
     let onConfirm: () -> Void
 
@@ -84,7 +95,7 @@ struct AgreementView: View {
 
     // MARK: - 하단 버튼
     private var AgreementBottomButtons: some View {
-        Button(action: { if isAllAgreed { dismiss(); onConfirm() } }) {
+        Button(action: { if isAllAgreed { registerUser() } }) {
             Text("동의하고 시작하기")
                 .font(.semiBold16)
                 .foregroundStyle(.black)
@@ -106,7 +117,32 @@ struct AgreementView: View {
     private func syncAll() {
         agreeAll = agreeService && agreePrivacy && agreeLocation
     }
+    // MARK: -약관 동의 API 호출
+    private func registerUser() {
+        guard let signupToken else {
+            dismiss()
+            onConfirm()
+            return
+        }
+        provider.request(.register(signupToken: signupToken)) { result in
+            switch result {
+            case .success(let response):
+                guard let wrappedResponse = try? response.map(APIResponse<UserResponse>.self) else { return }  // data 래퍼 벗겨서 파싱
+                let userResponse = wrappedResponse.data
+                DispatchQueue.main.async {
+                    KeychainService.save(key: KeychainService.Keys.accessToken, value: userResponse.auth.accessToken)
+                    KeychainService.save(key: KeychainService.Keys.refreshToken, value: userResponse.auth.refreshToken)
+                    dismiss()
+                    onConfirm()
+                }
+            case .failure(let error):
+                print("약관 동의 실패: \(error)")
+            }
+        }
+    }
 }
+
+
 
 // MARK: - 체크박스 행 (공통 컴포넌트)
 struct CheckRow: View {
@@ -152,7 +188,5 @@ struct CheckRow: View {
 }
 
 #Preview {
-    AgreementView(onConfirm: {
-        print("동의 완료")
-    })
+    AgreementView(signupToken: nil, onConfirm: { print("동의 완료") })
 }

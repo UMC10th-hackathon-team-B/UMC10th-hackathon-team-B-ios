@@ -1,7 +1,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var router = AppRouter()
+    @StateObject var router: AppRouter
+    let onLogout: () -> Void    // EggWatchApp에서 받은 로그아웃 클로저
+
+    init(initialScreen: AppScreen = .home, onLogout: @escaping () -> Void = {}) {
+        _router = StateObject(wrappedValue: AppRouter(initialScreen: initialScreen))
+        self.onLogout = onLogout    // 외부에서 주입된 로그아웃 클로저 저장
+    }
 
     var body: some View {
         Group {
@@ -18,21 +24,14 @@ struct ContentView: View {
 
             // 약관 동의
             case .agreement:
-                AgreementView(
-                    onConfirm: {
-                        router.goToHome()
-                    }
-                )
+                AgreementView(signupToken: nil, onConfirm: { router.goToHome() })
 
             // 홈 모드
             case .home:
                 HomeView(
-                    onOutingStart: {
-                        router.goToUVSelection()
-                    },
-                    onAlertTap: {
-                        router.goToAlert()
-                    }
+                    onOutingStart: { router.goToUVSelection() },
+                    onAlertTap: { router.goToAlert() },
+                    onLogout: onLogout      // 로그아웃 클로저 전달
                 )
 
             // 외출 시작

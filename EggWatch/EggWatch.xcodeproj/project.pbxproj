@@ -155,6 +155,8 @@
 /* Begin XCBuildConfiguration section */
 		7675F0592FE13AB7002FF9EC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 7675F0522FE13AB6002FF9EC /* EggWatch */;
+			baseConfigurationReferenceRelativePath = Server/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -218,6 +220,8 @@
 		};
 		7675F05A2FE13AB7002FF9EC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 7675F0522FE13AB6002FF9EC /* EggWatch */;
+			baseConfigurationReferenceRelativePath = Server/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

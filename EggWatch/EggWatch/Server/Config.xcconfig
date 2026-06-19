@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  EggWatch
+//
+//  Created by 한지민 on 6/19/26.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+KAKAO_APP_KEY = 321b057bc85c71f6fde5ac8250dbcf3a

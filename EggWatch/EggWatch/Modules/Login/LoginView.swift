@@ -1,6 +1,9 @@
 import SwiftUI
+import KakaoSDKUser // 카카오 사용자 로그인 API
+import KakaoSDKAuth // 카카오 인증(토큰) API
 
 struct LoginView: View {
+    @Binding var isLoggedIn: Bool   // App에서 넘겨받은 로그인 상태값
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
@@ -36,13 +39,11 @@ struct LoginView: View {
     //MARK: - 카카오 로그인 버튼
     private var kakaoButton: some View {
         Button {
-            // TODO: 로그인 연동 코드 자리
+            kakaoLogin()
         } label: {
-            Text("카카오로 시작하기")
-                .font(.semiBold16)
-                .foregroundStyle(.black)
-                .frame(maxWidth: .infinity)
-                .frame(height: 48)
+                Image("kakao")
+                    .resizable()
+                    .scaledToFit()
         }
         .glassEffect(
             .regular
@@ -53,8 +54,20 @@ struct LoginView: View {
         .padding(.horizontal, 61)
         .padding(.bottom, 80)
     }
+    private func kakaoLogin() { // 로그인 결과를 처리하는 클로저 (성공/실패 공통으로 사용)
+        let completion: (OAuthToken?, Error?) -> Void = { oauthToken, error in
+            if let error = error { print("카카오 로그인 실패: \(error)"); return }  // 실패시 종료
+            guard let accessToken = oauthToken?.accessToken else { return } // 액세스 토큰 추출 (없으면 종료)
+            DispatchQueue.main.async { isLoggedIn = true }
+        }   // 메인 스레드에서 로그인 상태 true로 변경
+        if UserApi.isKakaoTalkLoginAvailable() {    // 카카오톡 앱이 설치되어 있으면
+            UserApi.shared.loginWithKakaoTalk(completion: completion)   // 카카오톡 앱으로 로그인
+        } else {
+            UserApi.shared.loginWithKakaoAccount(completion: completion)    // 앱 없으면 웹으로 로그인
+        }
+    }
 }
 
 #Preview {
-    LoginView()
+    LoginView(isLoggedIn: .constant(false))
 }

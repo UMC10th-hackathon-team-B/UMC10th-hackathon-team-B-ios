@@ -127,8 +127,21 @@ struct OutingView: View {
             )
         }
         .onChange(of: viewModel.shouldNavigateToHome) { _, navigate in
-            if navigate {
+            // 자동 종료 안내 팝업이 있으면 사용자 확인 후 이동, 없으면 즉시 이동
+            if navigate && !viewModel.showAutoEndPopup {
                 onOutingEnd()                                     // 홈 모드로 이동 (외부 콜백)
+            }
+        }
+        .overlay {
+            // 자동 종료(저녁 8시 이후) 안내 팝업 (1.6)
+            if viewModel.showAutoEndPopup {
+                ZStack {
+                    Color.black.opacity(0.4).ignoresSafeArea()
+                    UVTimeoutPopupView {
+                        viewModel.showAutoEndPopup = false
+                        onOutingEnd()                             // 확인 후 홈 모드로 이동
+                    }
+                }
             }
         }
         .alert("로그아웃", isPresented: $showLogout) {

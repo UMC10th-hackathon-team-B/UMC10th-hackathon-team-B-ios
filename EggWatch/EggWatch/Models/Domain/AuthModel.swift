@@ -49,8 +49,31 @@ struct AuthTokens: Decodable {
     let refreshTokenExpiresAt: String
 }
 
-// MARK: 공통 응답 래퍼 (백엔드가 data 안에 응답을 감싸서 보냄)
+// MARK: - 공통 응답 래퍼
 struct APIResponse<T: Decodable>: Decodable {
     let success: Bool   // 요청 성공 여부
-    let data: T         // 실제 응답 데이터
+    let code: String    // 응답 코드 (COMMON_200, AUTH_401 등)
+    let message: String // 응답 메시지
+    let data: T?        // 실제 응답 데이터 (실패 시 null)
+}
+
+// MARK: - API 에러 코드
+enum APIError: String {
+    // 공통
+    case common400 = "COMMON_400"   // 잘못된 요청
+    // 인증
+    case auth400 = "AUTH_400"       // 카카오 토큰 검증 실패
+    case auth401 = "AUTH_401"       // 토큰 만료 또는 없음
+    // 사용자
+    case user404 = "USER_404"       // 사용자 없음
+    // 약관
+    case terms400 = "TERMS_400"     // 필수 약관 누락
+    // 날씨
+    case weather502 = "WEATHER_502" // 날씨 외부 API 실패
+    // 외출
+    case outing400 = "OUTING_400"   // 외출 시작 불가
+    case outing404 = "OUTING_404"   // 진행 중인 외출 없음
+    case outing409 = "OUTING_409"   // 이미 외출 중
+    // 알림
+    case notification404 = "NOTIFICATION_404" // 알림 없음
 }

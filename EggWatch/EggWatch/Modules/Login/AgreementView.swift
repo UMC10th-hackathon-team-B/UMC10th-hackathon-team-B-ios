@@ -126,8 +126,8 @@ struct AgreementView: View {
         provider.request(.register(signupToken: signupToken)) { result in
             switch result {
             case .success(let response):
-                guard let wrappedResponse = try? response.map(APIResponse<UserResponse>.self) else { return }  // data 래퍼 벗겨서 파싱
-                let userResponse = wrappedResponse.data
+                guard let wrappedResponse = try? response.map(APIResponse<UserResponse>.self),
+                      let userResponse = wrappedResponse.data else { return }  // data 래퍼 벗겨서 파싱, data nil 체크
                 DispatchQueue.main.async {
                     KeychainService.save(key: KeychainService.Keys.accessToken, value: userResponse.auth.accessToken)
                     KeychainService.save(key: KeychainService.Keys.refreshToken, value: userResponse.auth.refreshToken)

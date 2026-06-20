@@ -41,4 +41,27 @@ final class OutingViewModel: ObservableObject {
         self.outingService = outingService ?? OutingService()
         self.locationService = locationService
     }
+
+    // MARK: - 외출 화면 조회/새로고침 (3.8)
+    // onAppear 진입 시, pull-to-refresh 시 호출
+    // 자동 종료 응답 분기 처리는 이후 단계에서 추가
+    func fetchCurrent() {
+        isLoading = true
+        errorMessage = nil
+        let latitude = locationService.latitude
+        let longitude = locationService.longitude
+
+        outingService.fetchCurrent(latitude: latitude, longitude: longitude) { [weak self] result in
+            Task { @MainActor in
+                guard let self = self else { return }
+                self.isLoading = false
+                switch result {
+                case .success(let response):
+                    self.outingContext = response.outing       // 외출 화면 데이터 바인딩
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
 }

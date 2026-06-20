@@ -11,6 +11,11 @@ struct HomeView: View {
     @State private var alertCount: Int = 2
     @State private var showAlert: Bool = false
     @State private var showLogout: Bool = false
+    @State private var showUVNotAvailable: Bool = false
+
+    private var isAfter8pm: Bool {
+        Calendar.current.component(.hour, from: Date()) >= 20
+    }
 
     var statusMessage: String {
         switch exposureLevel {
@@ -49,21 +54,34 @@ struct HomeView: View {
             //AlertView 연결
         }
         .overlay {
-            if showLogout {
+            if showUVNotAvailable {
                 Color.black.opacity(0.4)
                     .ignoresSafeArea()
-                    .onTapGesture { showLogout = false }
-                LogoutView(isPresented: $showLogout) {
-                    onLogout()      // 부모에서 받은 로그아웃 실행
+                UVNotAvailablePopupView {
+                    showUVNotAvailable = false
                 }
             }
+        }
+        .alert("로그아웃", isPresented: $showLogout) {
+            Button("취소", role: .cancel) { }
+            Button("로그아웃", role: .destructive) {
+                onLogout()
+            }
+        } message: {
+            Text("정말 로그아웃할까요?")
         }
     }
 
     // MARK: - 하단 버튼
     private var homeActionButtons: some View {
         HStack(spacing: 0) {
-            Button(action: onOutingStart) {
+            Button(action: {
+                if isAfter8pm {
+                    showUVNotAvailable = true
+                } else {
+                    onOutingStart()
+                }
+            }) {
                 Text("외출 시작")
                     .font(.semiBold16)
                     .foregroundStyle(.black)

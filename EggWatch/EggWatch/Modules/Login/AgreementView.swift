@@ -59,7 +59,6 @@ struct AgreementView: View {
                 .foregroundStyle(Color.black)
             Spacer()
         }
-        .padding(.horizontal, 10)
         .frame(height: 72)
     }
 

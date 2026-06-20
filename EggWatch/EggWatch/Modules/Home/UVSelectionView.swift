@@ -42,7 +42,6 @@ struct UVSelectionView: View {
                 .font(.medium16)
             Spacer()
         }
-        .padding(.horizontal, 10)
         .padding(.vertical, 24)
     }
 

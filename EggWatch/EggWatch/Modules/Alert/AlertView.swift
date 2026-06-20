@@ -5,8 +5,9 @@ struct AlertView: View {
 
     // TODO: 백엔드 연결 시 외부에서 주입받도록 교체
     let alerts: [AlertItem] = [
-        AlertItem(title: "차단제를 다시 발라주세요.", message: "외출 세션 시작 후 2시간이 지났어요.", time: "13:00"),
-        AlertItem(title: "자외선 차단제를 발라주세요.", message: "계란이가 많이 익었어요. 자외선 노출에 주의해주세요.", time: "10:34")
+        AlertItem(title: "자외선 차단제를 발라주세요.", message: "계란이가 많이 익었어요. 자외선 노출에 주의해주세요.", time: "13:00"),
+        AlertItem(title: "오늘 자외선은 안심 수준이에요.", message: "현재 자외선 지수는 안심 수준이에요.", time: "13:00"),
+        AlertItem(title: "오늘 자외선은 보통이에요.", message: "현재 자외선 지수는 안심 수준이에요.", time: "13:00"),
     ]
 
     var body: some View {
@@ -34,7 +35,6 @@ struct AlertView: View {
                 .foregroundStyle(.black)
             Spacer()
         }
-        .padding(.horizontal, 10)
         .padding(.vertical, 24)
         .background(Color.white)
     }

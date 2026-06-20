@@ -42,6 +42,32 @@ final class OutingViewModel: ObservableObject {
         self.locationService = locationService
     }
 
+    // MARK: - 외출 세션 시작 (3.7)
+    // UVSelectionView 또는 외출 시작 화면에서 호출
+    // 이용 제한 시간(저녁 8시 이후, OUTING_400) 등 시작 불가 상황에서 UVNotAvailablePopup 표시
+    func startOuting(sunscreenAppliedOption: SunscreenAppliedOption) {
+        isLoading = true
+        errorMessage = nil
+        let latitude = locationService.latitude
+        let longitude = locationService.longitude
+
+        outingService.startOuting(sunscreenAppliedOption: sunscreenAppliedOption,
+                                  latitude: latitude,
+                                  longitude: longitude) { [weak self] result in
+            Task { @MainActor in
+                guard let self = self else { return }
+                self.isLoading = false
+                switch result {
+                case .success(let response):
+                    self.handleOutingResponse(response)        // 정상/자동 종료 분기 처리
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                    self.showUVNotAvailablePopup = true        // 이용 제한 시간 등 외출 시작 불가 안내
+                }
+            }
+        }
+    }
+
     // MARK: - 외출 화면 조회/새로고침 (3.8)
     // onAppear 진입 시, pull-to-refresh 시 호출
     // 자동 종료 응답 분기 처리는 이후 단계에서 추가

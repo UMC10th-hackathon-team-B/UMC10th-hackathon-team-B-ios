@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import Combine
 
 // MARK: - 위치 서비스
 class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {

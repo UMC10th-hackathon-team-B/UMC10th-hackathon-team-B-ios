@@ -19,4 +19,24 @@ class OutingService {
         AuthPlugin(),
         TokenRefreshPlugin()
     ])
+
+    // MARK: - 외출 시작 API 호출 (3.7)
+    func startOuting(sunscreenAppliedOption: SunscreenAppliedOption,
+                     latitude: Double,
+                     longitude: Double,
+                     completion: @escaping (Result<OutingResponse, Error>) -> Void) {
+        provider.request(.start(sunscreenAppliedOption, latitude, longitude)) { result in
+            switch result {
+            case .success(let response):
+                guard let wrapped = try? response.map(APIResponse<OutingResponse>.self),
+                      let data = wrapped.data else {
+                    completion(.failure(NSError(domain: "Outing", code: -1))) // 파싱 실패
+                    return
+                }
+                completion(.success(data))  // 성공 시 외출 응답 데이터 전달
+            case .failure(let error):
+                completion(.failure(error)) // 실패 시 에러 전달
+            }
+        }
+    }
 }

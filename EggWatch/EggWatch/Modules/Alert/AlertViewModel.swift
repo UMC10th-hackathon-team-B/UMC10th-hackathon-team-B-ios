@@ -31,4 +31,27 @@ final class AlertViewModel: ObservableObject {
     init(alertService: AlertService? = nil) {
         self.alertService = alertService ?? AlertService()
     }
+
+    // MARK: - 알림 목록 조회 (3.11)
+    // AlertView 진입 시(onAppear), pull-to-refresh 시 호출
+    // 읽지 않은 알림(isRead=false)만 최신순으로 받음
+    func fetchNotifications() {
+        isLoading = true
+        errorMessage = nil
+
+        alertService.fetchNotifications { [weak self] result in
+            Task { @MainActor in
+                guard let self = self else { return }
+                self.isLoading = false
+                switch result {
+                case .success(let response):
+                    self.notifications = response.notifications     // 알림 목록 바인딩
+                    self.unreadCount = response.unreadCount         // 읽지 않은 개수 갱신
+                    self.emptyMessage = response.emptyMessage       // 알림 없을 때 안내 문구
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
 }

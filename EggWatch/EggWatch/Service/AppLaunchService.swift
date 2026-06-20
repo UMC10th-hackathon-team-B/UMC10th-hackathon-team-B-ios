@@ -13,8 +13,9 @@ import Moya
 class AppLaunchService {
 
     private let provider = MoyaProvider<AppLaunchRouter>(plugins: [
-        AuthPlugin(),        // accessToken 헤더 자동 첨부
-        TokenRefreshPlugin() // 401 시 자동 재발급
+        AuthPlugin(),           // accessToken 헤더 자동 첨부
+        TokenRefreshPlugin(),   // 401 시 자동 재발급
+        NetworkLoggerPlugin()   // 상세 요청/응답 로그
     ])
 
     // MARK: - 앱 실행 API 호출

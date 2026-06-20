@@ -49,9 +49,10 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
-            isAuthorized = true   // 권한 허용됨
+            isAuthorized = true
+            fetchOnce()     // 권한 허용되는 순간 바로 위치 가져오기
         default:
-            isAuthorized = false  // 권한 거부됨
+            isAuthorized = false
         }
     }
 

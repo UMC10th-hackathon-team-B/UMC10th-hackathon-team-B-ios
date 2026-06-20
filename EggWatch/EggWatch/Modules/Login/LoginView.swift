@@ -98,8 +98,9 @@ struct LoginView: View {
         provider.request(.login(kakaoAccessToken: kakaoAccessToken)) { result in
             switch result {
             case .success(let response):
-                guard let wrappedResponse = try? response.map(APIResponse<AuthSessionResponse>.self) else { return }  // data 래퍼 벗겨서 파싱
-                DispatchQueue.main.async { handleNextScreen(wrappedResponse.data) }  // 메인 스레드에서 화면 분기
+                guard let wrappedResponse = try? response.map(APIResponse<AuthSessionResponse>.self),
+                      let data = wrappedResponse.data else { return }  // data 래퍼 벗겨서 파싱, data nil 체크
+                DispatchQueue.main.async { handleNextScreen(data) }  // 메인 스레드에서 화면 분기
             case .failure(let error):
                 print("백엔드 로그인 실패: \(error)")
             }

@@ -59,4 +59,24 @@ class OutingService {
             }
         }
     }
+
+    // MARK: - 자외선 차단제 다시 바르기 기록 API 호출 (3.9)
+    // 자동 종료 시간 경과 시 기록은 저장되지 않고 endedSession 응답을 반환 (1.6)
+    func applySunscreen(latitude: Double,
+                        longitude: Double,
+                        completion: @escaping (Result<OutingResponse, Error>) -> Void) {
+        provider.request(.applySunscreen(latitude, longitude)) { result in
+            switch result {
+            case .success(let response):
+                guard let wrapped = try? response.map(APIResponse<OutingResponse>.self),
+                      let data = wrapped.data else {
+                    completion(.failure(NSError(domain: "Outing", code: -1))) // 파싱 실패
+                    return
+                }
+                completion(.success(data))  // 성공 시 외출 응답 데이터 전달
+            case .failure(let error):
+                completion(.failure(error)) // 실패 시 에러 전달
+            }
+        }
+    }
 }

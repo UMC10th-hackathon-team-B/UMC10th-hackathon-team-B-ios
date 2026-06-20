@@ -7,7 +7,6 @@ struct OutingView: View {
     @StateObject private var viewModel: OutingViewModel
 
     @State private var showLogout: Bool = false
-    @State private var showSuncreamConfirm: Bool = false
     @State private var outingElapsedSeconds: Int = 0
 
     init(onOutingEnd: @escaping () -> Void,
@@ -107,13 +106,13 @@ struct OutingView: View {
                 outingElapsedSeconds += 1
             }
         }
-        .sheet(isPresented: $showSuncreamConfirm) {
+        .sheet(isPresented: $viewModel.showSunscreenConfirm) {
             SuncreamConfirmView(
                 onConfirm: {
-                    showSuncreamConfirm = false
+                    viewModel.applySunscreen()                   // 선크림 기록 API 호출 (3.9)
                 },
                 onCancel: {
-                    showSuncreamConfirm = false
+                    viewModel.showSunscreenConfirm = false        // 팝업만 닫기
                 }
             )
         }
@@ -154,7 +153,7 @@ struct OutingView: View {
                         )
                 }
                 Button(action: {
-                    showSuncreamConfirm = true
+                    viewModel.showSunscreenConfirm = true         // 선크림 확인 팝업 표시
                 }) {
                     Text("자외선 차단제 기록")
                         .font(.semiBold16)

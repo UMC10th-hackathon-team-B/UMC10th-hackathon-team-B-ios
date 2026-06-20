@@ -57,7 +57,7 @@ final class OutingViewModel: ObservableObject {
                 self.isLoading = false
                 switch result {
                 case .success(let response):
-                    self.outingContext = response.outing       // 외출 화면 데이터 바인딩
+                    self.handleOutingResponse(response)        // 정상/자동 종료 분기 처리
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
@@ -80,8 +80,8 @@ final class OutingViewModel: ObservableObject {
                 self.isLoading = false
                 switch result {
                 case .success(let response):
-                    self.outingContext = response.outing       // 기록 반영된 화면 데이터 갱신
                     self.showSunscreenConfirm = false          // 확인 팝업 닫기
+                    self.handleOutingResponse(response)        // 정상/자동 종료 분기 처리
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
@@ -112,14 +112,30 @@ final class OutingViewModel: ObservableObject {
                 self.isLoading = false
                 switch result {
                 case .success(let response):
-                    self.endedSession = response.endedSession        // 종료된 세션 정보 보관
-                    self.autoEndNotice = response.autoEndNotice      // 자동 종료 시에만 값 존재
-                    self.showEndConfirm = false                      // 확인 팝업 닫기
-                    self.shouldNavigateToHome = true                 // 홈 모드로 이동 트리거
+                    self.endedSession = response.endedSession                       // 종료된 세션 정보 보관
+                    self.autoEndNotice = response.autoEndNotice                     // 자동 종료 시에만 값 존재
+                    self.showAutoEndPopup = response.autoEndNotice?.showPopup ?? false // 자동 종료 안내 팝업 표시 여부
+                    self.showEndConfirm = false                                     // 확인 팝업 닫기
+                    self.shouldNavigateToHome = true                                // 홈 모드로 이동 트리거
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
             }
+        }
+    }
+
+    // MARK: - 외출 응답 분기 처리 (1.6)
+    // 자동 종료 시간 경과 응답이면 endedSession이 채워져 있고 nextScreen=HOME
+    // - 자동 종료: endedSession/autoEndNotice 저장 후 홈 이동 트리거, 필요 시 안내 팝업 표시
+    // - 정상 응답: outingContext만 갱신
+    private func handleOutingResponse(_ response: OutingResponse) {
+        if response.nextScreen == .home, let endedSession = response.endedSession {
+            self.endedSession = endedSession
+            self.autoEndNotice = response.autoEndNotice
+            self.showAutoEndPopup = response.autoEndNotice?.showPopup ?? false
+            self.shouldNavigateToHome = true
+        } else {
+            self.outingContext = response.outing
         }
     }
 }

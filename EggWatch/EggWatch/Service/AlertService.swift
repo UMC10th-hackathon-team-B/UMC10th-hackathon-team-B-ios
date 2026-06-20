@@ -2,7 +2,7 @@
 //  AlertService.swift
 //  EggWatch
 //
-//  Created by JOON on 6/17/26.
+//  Created by 최윤석 on 6/20/26.
 //
 //  알림함 조회/읽음 처리 API를 호출하는 서비스
 
@@ -32,6 +32,25 @@ class AlertService {
                     return
                 }
                 completion(.success(data))  // 성공 시 알림 목록 전달
+            case .failure(let error):
+                completion(.failure(error)) // 실패 시 에러 전달
+            }
+        }
+    }
+
+    // MARK: - 알림 읽음 처리 API 호출 (3.12)
+    // 읽음 처리 후 남은 안 읽은 알림 목록을 반환
+    func markAsRead(notificationId: Int,
+                    completion: @escaping (Result<NotificationListResponse, Error>) -> Void) {
+        provider.request(.markAsRead(notificationId: notificationId, isRead: true)) { result in
+            switch result {
+            case .success(let response):
+                guard let wrapped = try? response.map(APIResponse<NotificationListResponse>.self),
+                      let data = wrapped.data else {
+                    completion(.failure(NSError(domain: "Notification", code: -1))) // 파싱 실패
+                    return
+                }
+                completion(.success(data))  // 성공 시 갱신된 알림 목록 전달
             case .failure(let error):
                 completion(.failure(error)) // 실패 시 에러 전달
             }

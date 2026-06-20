@@ -11,8 +11,10 @@ import KakaoSDKAuth
 
 @main
 struct EggWatchApp: App {
-    @State private var isLoggedIn = false   // 로그인 상태 (false: 로그인화면, true: 홈화면)
-    @State private var initialScreen: AppScreen = .home  // 로그인 후 이동할 화면
+    @State private var isLoggedIn = false                        // 로그인 상태
+    @State private var initialScreen: AppScreen = .home         // 로그인 후 이동할 화면
+    @StateObject private var locationService = LocationService() // 위치 서비스
+    private let appLaunchService = AppLaunchService()            // 앱 실행 서비스
 
     init() {
         let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_APP_KEY"] as? String ?? ""
@@ -34,6 +36,29 @@ struct EggWatchApp: App {
                     })
                 } else {
                     LoginView(isLoggedIn: $isLoggedIn, initialScreen: $initialScreen)   // 로그인 상태와 이동할 화면을 LoginView와 공유
+                }
+            }
+            .onAppear {
+                guard isLoggedIn else { return }    // 토큰 없으면 패스
+                locationService.fetchOnce()         // 위치 한 번 가져오기
+            }
+            .onChange(of: locationService.latitude) { _, lat in
+                // 위치 가져오면 앱 실행 API 호출
+                let lon = locationService.longitude
+                guard isLoggedIn, lat != 0.0, lon != 0.0 else { return }   // 유효한 위치인지 확인
+                appLaunchService.launch(latitude: lat, longitude: lon) { result in
+                    DispatchQueue.main.async {
+                        switch result {
+                        case .success(let data):
+                            if data.nextScreen == .outing {
+                                initialScreen = .outing // 외출 중이었으면 외출화면으로
+                            } else {
+                                initialScreen = .home   // 아니면 홈화면으로
+                            }
+                        case .failure(let error):
+                            print("앱 실행 API 실패: \(error)")  // 실패해도 홈화면 유지
+                        }
+                    }
                 }
             }
             .onOpenURL { url in // 카카오톡 앱으로 로그인하고 다시 EggWatch로 돌아올 때 실행되는 코드

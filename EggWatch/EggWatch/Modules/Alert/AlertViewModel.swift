@@ -54,4 +54,27 @@ final class AlertViewModel: ObservableObject {
             }
         }
     }
+
+    // MARK: - 알림 읽음 처리 (3.12)
+    // AlertCardView 셀 탭 시 호출
+    // 읽음 처리 후 남은 안 읽은 알림 목록으로 갱신됨
+    func markAsRead(notificationId: Int) {
+        isLoading = true
+        errorMessage = nil
+
+        alertService.markAsRead(notificationId: notificationId) { [weak self] result in
+            Task { @MainActor in
+                guard let self = self else { return }
+                self.isLoading = false
+                switch result {
+                case .success(let response):
+                    self.notifications = response.notifications     // 읽음 처리 후 남은 목록
+                    self.unreadCount = response.unreadCount         // 남은 안 읽은 개수
+                    self.emptyMessage = response.emptyMessage       // 남은 알림 없으면 안내 문구
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UVTimeoutPopupView: View {
+struct UVNotAvailablePopupView: View {
     let onConfirm: () -> Void
 
     var body: some View {
@@ -32,14 +32,14 @@ struct UVTimeoutPopupView: View {
     }
 
     private var popupTitle: some View {
-        Text("자외선 관리 시간이 종료됐어요.")
+        Text("지금은 자외선 관리 시간이 아니에요")
             .font(.semiBold18)
             .foregroundStyle(.black)
             .multilineTextAlignment(.center)
     }
 
     private var popupMessage: some View {
-        Text("저녁 8시 이후에는 자외선 노출 위험이 낮아져\n외출 모드를 계속 사용할 수 없어요.")
+        Text("저녁 8시 이후에는 자외선 노출 위험이 낮아져\n외출 모드를 시작하지 못 해요.")
             .font(.regular12)
             .foregroundStyle(Color.gray02)
             .multilineTextAlignment(.center)
@@ -47,7 +47,7 @@ struct UVTimeoutPopupView: View {
 
     private var popupButton: some View {
         Button(action: onConfirm) {
-            Text("확인하고 홈으로")
+            Text("확인")
                 .font(.medium16)
                 .foregroundStyle(.black)
                 .frame(maxWidth: .infinity)
@@ -65,8 +65,8 @@ struct UVTimeoutPopupView: View {
 #Preview {
     ZStack {
         Color.black.opacity(0.4).ignoresSafeArea()
-        UVTimeoutPopupView {
-            print("홈으로 이동")
+        UVNotAvailablePopupView {
+            print("확인")
         }
     }
 }

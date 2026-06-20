@@ -40,7 +40,7 @@ struct SplashView: View {
                         .background(.yellow01)
                         .cornerRadius(1000)
                 }
-                .padding(.bottom, 24)
+                .padding(.bottom, 80)
             }
         }
     }

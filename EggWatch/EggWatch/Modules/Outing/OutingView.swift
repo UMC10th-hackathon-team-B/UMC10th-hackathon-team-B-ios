@@ -12,6 +12,7 @@ struct OutingView: View {
     @State private var showSuncreamConfirm: Bool = false
     @State private var lastRecordTime: String = "3시 33분"
     @State private var lastRecordAgo: String = "1시간 전"
+    @State private var outingElapsedSeconds: Int = 0
 
     var statusMessage: String {
         switch exposureLevel {
@@ -38,16 +39,22 @@ struct OutingView: View {
                 }
             )
             VStack(spacing: 0) {
-                WeatherInfoCard(weather: weather)
+                WeatherInfoCard(weather: weather, outingElapsedSeconds: outingElapsedSeconds)
                     .padding(.bottom, 70)
                 EggCharacterView(
                     exposureLevel: exposureLevel,
                     statusMessage: statusMessage
                 )
             }
-            .padding(.horizontal, 43)
+            .padding(.horizontal, 22)
             Spacer()
             outingActionButtons
+        }
+        .task {
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(1))
+                outingElapsedSeconds += 1
+            }
         }
         .sheet(isPresented: $showAlert) {
             //AlertView 연결
@@ -67,15 +74,13 @@ struct OutingView: View {
                 }
             )
         }
-        .overlay {
-            if showLogout {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                    .onTapGesture { showLogout = false }
-                LogoutView(isPresented: $showLogout) {
-                    // TODO: 로그아웃 로직 연결
-                }
+        .alert("로그아웃", isPresented: $showLogout) {
+            Button("취소", role: .cancel) { }
+            Button("로그아웃", role: .destructive) {
+                // TODO: 로그아웃 로직 연결
             }
+        } message: {
+            Text("정말 로그아웃할까요?")
         }
     }
 
@@ -120,8 +125,9 @@ struct OutingView: View {
                         )
                 }
             }
+            .padding(.horizontal, 10)
         }
-        .padding(.horizontal, 33)
+        .padding(.horizontal, 34)
         .padding(.bottom, 80)
     }
 

@@ -76,7 +76,7 @@ struct LoginView: View {
                 .interactive(),
             in: .capsule
         )
-        .padding(.horizontal, 61)
+        .padding(.horizontal, 41)
         .padding(.bottom, 80)
     }
     

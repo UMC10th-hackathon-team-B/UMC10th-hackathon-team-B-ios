@@ -5,10 +5,8 @@ struct AlertCardView: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
-            Image("egg1")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 18, height: 18)
+            Text("🥚")
+                .font(.system(size: 18))
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(item.title)

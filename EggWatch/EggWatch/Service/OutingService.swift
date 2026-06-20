@@ -79,4 +79,25 @@ class OutingService {
             }
         }
     }
+
+    // MARK: - 외출 세션 직접 종료 API 호출 (3.10)
+    // 자동 종료 시간 경과 시 수동 종료는 수행되지 않고 AUTO 사유로 종료됨 (1.6)
+    func endOuting(outingSessionId: Int,
+                   latitude: Double,
+                   longitude: Double,
+                   completion: @escaping (Result<OutingEndResponse, Error>) -> Void) {
+        provider.request(.end(outingSessionId: outingSessionId, latitude: latitude, longitude: longitude)) { result in
+            switch result {
+            case .success(let response):
+                guard let wrapped = try? response.map(APIResponse<OutingEndResponse>.self),
+                      let data = wrapped.data else {
+                    completion(.failure(NSError(domain: "Outing", code: -1))) // 파싱 실패
+                    return
+                }
+                completion(.success(data))  // 성공 시 종료된 세션 정보 전달
+            case .failure(let error):
+                completion(.failure(error)) // 실패 시 에러 전달
+            }
+        }
+    }
 }

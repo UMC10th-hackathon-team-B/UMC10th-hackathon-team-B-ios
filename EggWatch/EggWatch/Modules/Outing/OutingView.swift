@@ -4,22 +4,72 @@ struct OutingView: View {
     let onOutingEnd: () -> Void
     let onAlertTap: () -> Void
 
-    @State private var weather = WeatherInfo()
-    @State private var exposureLevel: Double = 0.0
-    @State private var alertCount: Int = 2
-    @State private var showAlert: Bool = false
+    @StateObject private var viewModel: OutingViewModel
+
     @State private var showLogout: Bool = false
     @State private var showSuncreamConfirm: Bool = false
-    @State private var lastRecordTime: String = "3시 33분"
-    @State private var lastRecordAgo: String = "1시간 전"
     @State private var outingElapsedSeconds: Int = 0
 
-    var statusMessage: String {
-        switch exposureLevel {
-        case 0..<0.2: return "안전한 계란이에요."
-        case 0.2..<0.5: return "조금 그을리고 있어요."
-        case 0.5..<0.8: return "선크림을 발라주세요!"
-        default: return "많이 탔어요! 실내로 이동하세요."
+    init(onOutingEnd: @escaping () -> Void,
+         onAlertTap: @escaping () -> Void,
+         locationService: LocationService) {
+        self.onOutingEnd = onOutingEnd
+        self.onAlertTap = onAlertTap
+        self._viewModel = StateObject(
+            wrappedValue: OutingViewModel(locationService: locationService)
+        )
+    }
+
+    // MARK: - 화면 표시용 변환 (명세서 모델 → 기존 UI 컴포넌트 모델)
+
+    // OutingWeatherInfo → 임시 WeatherInfo (A 영역 통합 시 정리 예정)
+    private var displayWeather: WeatherInfo {
+        guard let w = viewModel.outingContext?.weather else { return WeatherInfo() }
+        return WeatherInfo(
+            location: w.locationName,
+            temperature: Int(w.temperatureCelsius),
+            condition: w.weatherLabel,
+            uvIndex: Int(w.uvIndex),
+            uvLevel: mapUVLevel(w.uvLevel)
+        )
+    }
+
+    // EggStatus → 노출도(0.0~1.0) 변환 — EggCharacterView 시각 단계용
+    private var exposureLevel: Double {
+        guard let status = viewModel.outingContext?.egg.eggStatus else { return 0.0 }
+        switch status {
+        case .safe:         return 0.1
+        case .lightToasted: return 0.3
+        case .toasted:      return 0.5
+        case .burned:       return 0.7
+        case .danger:       return 0.9
+        }
+    }
+
+    private var statusMessage: String {
+        viewModel.outingContext?.egg.message ?? ""
+    }
+
+    private var alertCount: Int {
+        viewModel.outingContext?.notification.unreadCount ?? 0
+    }
+
+    private var lastRecordTime: String {
+        viewModel.outingContext?.sunscreen.lastSunscreenAppliedAt ?? "--"
+    }
+
+    private var lastRecordAgo: String {
+        viewModel.outingContext?.sunscreen.lastSunscreenAppliedText ?? "기록 없음"
+    }
+
+    // APIUVLevel → 임시 UVLevel 매핑 (A 영역 통합 전 임시 변환)
+    private func mapUVLevel(_ level: APIUVLevel) -> UVLevel {
+        switch level {
+        case .low:      return .low
+        case .normal:   return .moderate
+        case .high:     return .high
+        case .veryHigh: return .veryHigh
+        case .danger:   return .extreme
         }
     }
 
@@ -28,18 +78,16 @@ struct OutingView: View {
             EggWatchNavigationBar(
                 mode: .outing,
                 alertCount: alertCount,
-                onAlertTap: {
-                    onAlertTap()
-                },
+                onAlertTap: { onAlertTap() },
                 onRefreshTap: {
-                    /* 날씨 새로고침 */
+                    viewModel.fetchCurrent()         // 새로고침 시 외출 화면 재조회
                 },
                 onLogoutTap: {
                     showLogout = true
                 }
             )
             VStack(spacing: 0) {
-                WeatherInfoCard(weather: weather, outingElapsedSeconds: outingElapsedSeconds)
+                WeatherInfoCard(weather: displayWeather, outingElapsedSeconds: outingElapsedSeconds)
                     .padding(.bottom, 70)
                 EggCharacterView(
                     exposureLevel: exposureLevel,
@@ -50,23 +98,18 @@ struct OutingView: View {
             Spacer()
             outingActionButtons
         }
+        .onAppear {
+            viewModel.fetchCurrent()                 // 화면 진입 시 외출 데이터 로딩
+        }
         .task {
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(1))
                 outingElapsedSeconds += 1
             }
         }
-        .sheet(isPresented: $showAlert) {
-            //AlertView 연결
-        }
         .sheet(isPresented: $showSuncreamConfirm) {
             SuncreamConfirmView(
                 onConfirm: {
-                    withAnimation(.easeInOut(duration: 0.4)) {
-                        exposureLevel = max(0.0, exposureLevel - 0.3)
-                        lastRecordTime = currentTimeString()
-                        lastRecordAgo = "방금 전"
-                    }
                     showSuncreamConfirm = false
                 },
                 onCancel: {
@@ -130,16 +173,12 @@ struct OutingView: View {
         .padding(.horizontal, 34)
         .padding(.bottom, 80)
     }
-
-    private func currentTimeString() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "H시 mm 분"
-        return formatter.string(from: Date())
-    }
 }
 
 #Preview {
     OutingView(
-        onOutingEnd: { }, onAlertTap: { }
+        onOutingEnd: { },
+        onAlertTap: { },
+        locationService: LocationService()
     )
 }

@@ -144,6 +144,17 @@ struct OutingView: View {
                 }
             }
         }
+        .overlay {
+            // 이용 제한 시간(OUTING_400 등) 안내 팝업
+            if viewModel.showUVNotAvailablePopup {
+                ZStack {
+                    Color.black.opacity(0.4).ignoresSafeArea()
+                    UVNotAvailablePopupView {
+                        viewModel.showUVNotAvailablePopup = false  // 팝업만 닫기
+                    }
+                }
+            }
+        }
         .alert("로그아웃", isPresented: $showLogout) {
             Button("취소", role: .cancel) { }
             Button("로그아웃", role: .destructive) {

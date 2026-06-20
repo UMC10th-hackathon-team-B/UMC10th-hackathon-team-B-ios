@@ -1,0 +1,35 @@
+//
+//  AuthService.swift
+//  EggWatch
+//
+//  Created by 한지민 on 6/20/26.
+//
+// 인증 관련 API 호출 서비스 (로그아웃, 토큰 재발급)
+
+import Foundation
+import Moya
+
+// MARK: - 인증 서비스
+class AuthService {
+
+    private let provider = MoyaProvider<AuthRouter>(plugins: [
+        AuthPlugin(),        // accessToken 헤더 자동 첨부
+        TokenRefreshPlugin() // 401 시 자동 재발급
+    ])
+
+    // MARK: - 로그아웃 API 호출
+    func logout(completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let refreshToken = KeychainService.load(key: KeychainService.Keys.refreshToken) else {
+            completion(.failure(NSError(domain: "Auth", code: -1)))  // 토큰 없으면 실패
+            return
+        }
+        provider.request(.logout(refreshToken: refreshToken)) { result in
+            switch result {
+            case .success:
+                completion(.success(()))    // 서버 로그아웃 성공
+            case .failure(let error):
+                completion(.failure(error)) // 실패 시 에러 전달
+            }
+        }
+    }
+}

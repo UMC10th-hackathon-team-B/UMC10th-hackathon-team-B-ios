@@ -15,6 +15,7 @@ struct EggWatchApp: App {
     @State private var initialScreen: AppScreen = .home         // 로그인 후 이동할 화면
     @StateObject private var locationService = LocationService() // 위치 서비스
     private let appLaunchService = AppLaunchService()            // 앱 실행 서비스
+    private let authService = AuthService()                      // 인증 서비스 (로그아웃)
 
     init() {
         let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_APP_KEY"] as? String ?? ""
@@ -30,9 +31,13 @@ struct EggWatchApp: App {
             Group {
                 if isLoggedIn {
                     ContentView(initialScreen: initialScreen, onLogout: {
-                        KeychainService.delete(key: KeychainService.Keys.accessToken)   // 액세스 토큰 삭제
-                        KeychainService.delete(key: KeychainService.Keys.refreshToken)  // 리프레시 토큰 삭제
-                        isLoggedIn = false      // 로그인 화면으로 이동
+                        authService.logout { _ in
+                            DispatchQueue.main.async {
+                                KeychainService.delete(key: KeychainService.Keys.accessToken)   // 액세스 토큰 삭제
+                                KeychainService.delete(key: KeychainService.Keys.refreshToken)  // 리프레시 토큰 삭제
+                                isLoggedIn = false      // 로그인 화면으로 이동
+                            }
+                        }
                     })
                 } else {
                     LoginView(isLoggedIn: $isLoggedIn, initialScreen: $initialScreen)   // 로그인 상태와 이동할 화면을 LoginView와 공유

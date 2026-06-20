@@ -24,12 +24,15 @@ class WeatherService {
             case .success(let response):
                 guard let wrapped = try? response.map(APIResponse<WeatherObservationResponse>.self),
                       let data = wrapped.data else {
-                    completion(.failure(NSError(domain: "Weather", code: -1)))  // 파싱 실패
+                    print("❌ 날씨 API 파싱 실패 - 상태코드: \(response.statusCode)")
+                    completion(.failure(NSError(domain: "Weather", code: -1)))
                     return
                 }
-                completion(.success(data))  // 성공 시 응답 데이터 전달
+                print("✅ 날씨 API 성공 - 위치: \(data.weather.locationName), 기온: \(data.weather.temperatureCelsius)°C, 자외선: \(data.weather.uvLevel)")
+                completion(.success(data))
             case .failure(let error):
-                completion(.failure(error)) // 실패 시 에러 전달
+                print("❌ 날씨 API 실패 - \(error)")
+                completion(.failure(error))
             }
         }
     }

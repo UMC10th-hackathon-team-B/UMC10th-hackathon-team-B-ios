@@ -24,12 +24,15 @@ class AppLaunchService {
             case .success(let response):
                 guard let wrapped = try? response.map(APIResponse<AppLaunchResponse>.self),
                       let data = wrapped.data else {
-                    completion(.failure(NSError(domain: "AppLaunch", code: -1))) // 파싱 실패
+                    print("❌ 앱 실행 API 파싱 실패 - 상태코드: \(response.statusCode)")
+                    completion(.failure(NSError(domain: "AppLaunch", code: -1)))
                     return
                 }
-                completion(.success(data))  // 성공 시 응답 데이터 전달
+                print("✅ 앱 실행 API 성공 - 다음 화면: \(data.nextScreen)")
+                completion(.success(data))
             case .failure(let error):
-                completion(.failure(error)) // 실패 시 에러 전달
+                print("❌ 앱 실행 API 실패 - \(error)")
+                completion(.failure(error))
             }
         }
     }

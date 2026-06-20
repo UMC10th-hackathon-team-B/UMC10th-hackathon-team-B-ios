@@ -25,10 +25,12 @@ class AuthService {
         }
         provider.request(.logout(refreshToken: refreshToken)) { result in
             switch result {
-            case .success:
-                completion(.success(()))    // 서버 로그아웃 성공
+            case .success(let response):
+                print("✅ 로그아웃 성공 - 상태코드: \(response.statusCode)")
+                completion(.success(()))
             case .failure(let error):
-                completion(.failure(error)) // 실패 시 에러 전달
+                print("❌ 로그아웃 실패 - \(error)")
+                completion(.failure(error))
             }
         }
     }

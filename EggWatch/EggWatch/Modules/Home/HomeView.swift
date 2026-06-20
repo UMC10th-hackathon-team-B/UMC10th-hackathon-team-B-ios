@@ -3,12 +3,10 @@ import SwiftUI
 struct HomeView: View {
     let onOutingStart: () -> Void
     let onAlertTap: () -> Void
-    let onLogout: () -> Void    // 로그아웃 실행 클로저
+    let onLogout: () -> Void
 
-    //ViewModel 연결 (추후 HomeViewModel로 분리)
-    @State private var weather = WeatherInfo()
-    @State private var exposureLevel: Double = 0.0
-    @State private var alertCount: Int = 2
+    @StateObject private var viewModel = HomeViewModel()    // 날씨 뷰모델
+
     @State private var showAlert: Bool = false
     @State private var showLogout: Bool = false
     @State private var showUVNotAvailable: Bool = false
@@ -17,12 +15,45 @@ struct HomeView: View {
         Calendar.current.component(.hour, from: Date()) >= 20
     }
 
-    var statusMessage: String {
-        switch exposureLevel {
-        case 0..<0.2: return "안전한 계란이에요."
-        case 0.2..<0.5: return "조금 그을리고 있어요."
-        case 0.5..<0.8: return "선크림을 발라주세요!"
-        default: return "많이 탔어요! 실내로 이동하세요."
+    // API 날씨 데이터 → WeatherInfoCard용 WeatherInfo 변환
+    private var currentWeather: WeatherInfo {
+        guard let w = viewModel.weather else {
+            return WeatherInfo()    // 로딩 전 기본값
+        }
+        return WeatherInfo(
+            location: w.locationName,
+            temperature: Int(w.temperatureCelsius),
+            condition: w.weatherLabel,
+            uvIndex: Int(w.uvIndex),
+            uvLevel: uvLevelFromAPI(w.uvLevel)
+        )
+    }
+
+    // API 계란 상태 → 노출 수치 변환
+    private var exposureLevel: Double {
+        switch viewModel.egg?.eggStatus {
+        case "SAFE":            return 0.0
+        case "LIGHT_TOASTED":   return 0.3
+        case "TOASTED":         return 0.55
+        case "BURNED":          return 0.75
+        case "DANGER":          return 1.0
+        default:                return 0.0
+        }
+    }
+
+    private var statusMessage: String {
+        viewModel.egg?.message ?? "날씨 정보를 불러오는 중..."
+    }
+
+    // API UV 레벨 문자열 → UVLevel enum 변환
+    private func uvLevelFromAPI(_ level: String) -> UVLevel {
+        switch level {
+        case "LOW":         return .low
+        case "NORMAL":      return .moderate
+        case "HIGH":        return .high
+        case "VERY_HIGH":   return .veryHigh
+        case "DANGER":      return .extreme
+        default:            return .low
         }
     }
 
@@ -30,7 +61,7 @@ struct HomeView: View {
         VStack(spacing: 0) {
             EggWatchNavigationBar(
                 mode: .home,
-                alertCount: alertCount,
+                alertCount: viewModel.unreadCount,
                 onAlertTap: {
                     onAlertTap()
                 },
@@ -39,7 +70,7 @@ struct HomeView: View {
                 }
             )
             VStack(spacing: 0) {
-                WeatherInfoCard(weather: weather)
+                WeatherInfoCard(weather: currentWeather)
                     .padding(.bottom, 70)
                 EggCharacterView(
                     exposureLevel: exposureLevel,

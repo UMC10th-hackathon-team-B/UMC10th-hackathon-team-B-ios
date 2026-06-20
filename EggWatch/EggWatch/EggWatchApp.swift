@@ -47,6 +47,26 @@ struct EggWatchApp: App {
                 guard isLoggedIn else { return }    // 토큰 없으면 패스
                 locationService.fetchOnce()         // 위치 한 번 가져오기
             }
+            .onChange(of: isLoggedIn) { _, loggedIn in
+                guard loggedIn else { return }
+                let lat = locationService.latitude
+                let lon = locationService.longitude
+                if lat != 0.0 && lon != 0.0 {
+                    // 이미 위치 있으면 바로 AppLaunch 호출
+                    appLaunchService.launch(latitude: lat, longitude: lon) { result in
+                        DispatchQueue.main.async {
+                            switch result {
+                            case .success(let data):
+                                initialScreen = data.nextScreen == .outing ? .outing : .home
+                            case .failure(let error):
+                                print("앱 실행 API 실패: \(error)")
+                            }
+                        }
+                    }
+                } else {
+                    locationService.fetchOnce()     // 위치 없으면 다시 요청
+                }
+            }
             .onChange(of: locationService.latitude) { _, lat in
                 // 위치 가져오면 앱 실행 API 호출
                 let lon = locationService.longitude

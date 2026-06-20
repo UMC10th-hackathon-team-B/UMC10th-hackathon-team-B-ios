@@ -99,10 +99,14 @@ struct LoginView: View {
             switch result {
             case .success(let response):
                 guard let wrappedResponse = try? response.map(APIResponse<AuthSessionResponse>.self),
-                      let data = wrappedResponse.data else { return }  // data 래퍼 벗겨서 파싱, data nil 체크
-                DispatchQueue.main.async { handleNextScreen(data) }  // 메인 스레드에서 화면 분기
+                      let data = wrappedResponse.data else {
+                    print("❌ 로그인 API 파싱 실패 - 상태코드: \(response.statusCode)")
+                    return
+                }
+                print("✅ 로그인 API 성공 - 다음 화면: \(data.nextScreen)")
+                DispatchQueue.main.async { handleNextScreen(data) }
             case .failure(let error):
-                print("백엔드 로그인 실패: \(error)")
+                print("❌ 로그인 API 실패 - \(error)")
             }
         }
     }

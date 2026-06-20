@@ -30,11 +30,15 @@ struct TokenRefreshPlugin: PluginType {
             switch result {
             case .success(let response):
                 guard let wrapped = try? response.map(APIResponse<AuthTokens>.self),
-                      let tokens = wrapped.data else { return }  // 응답 파싱
-                KeychainService.save(key: KeychainService.Keys.accessToken, value: tokens.accessToken)    // 새 accessToken 저장
-                KeychainService.save(key: KeychainService.Keys.refreshToken, value: tokens.refreshToken)  // 새 refreshToken 저장
-            case .failure:
-                break
+                      let tokens = wrapped.data else {
+                    print("❌ 토큰 재발급 파싱 실패 - 상태코드: \(response.statusCode)")
+                    return
+                }
+                print("✅ 토큰 재발급 성공")
+                KeychainService.save(key: KeychainService.Keys.accessToken, value: tokens.accessToken)
+                KeychainService.save(key: KeychainService.Keys.refreshToken, value: tokens.refreshToken)
+            case .failure(let error):
+                print("❌ 토큰 재발급 실패 - \(error)")
             }
         }
     }

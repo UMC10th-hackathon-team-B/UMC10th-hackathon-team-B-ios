@@ -88,4 +88,38 @@ final class OutingViewModel: ObservableObject {
             }
         }
     }
+
+    // MARK: - 외출 세션 직접 종료 (3.10)
+    // OutingEndConfirmView 확인 버튼 탭 시 호출
+    // 종료 후 홈 화면으로 이동 트리거 (shouldNavigateToHome = true)
+    // 자동 종료 안내(autoEndNotice) 분기 처리는 이후 단계에서 추가
+    func endOuting() {
+        guard let sessionId = outingContext?.outingSession.outingSessionId else {
+            errorMessage = "외출 세션 정보를 찾을 수 없어요."
+            return
+        }
+
+        isLoading = true
+        errorMessage = nil
+        let latitude = locationService.latitude
+        let longitude = locationService.longitude
+
+        outingService.endOuting(outingSessionId: sessionId,
+                                latitude: latitude,
+                                longitude: longitude) { [weak self] result in
+            Task { @MainActor in
+                guard let self = self else { return }
+                self.isLoading = false
+                switch result {
+                case .success(let response):
+                    self.endedSession = response.endedSession        // 종료된 세션 정보 보관
+                    self.autoEndNotice = response.autoEndNotice      // 자동 종료 시에만 값 존재
+                    self.showEndConfirm = false                      // 확인 팝업 닫기
+                    self.shouldNavigateToHome = true                 // 홈 모드로 이동 트리거
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
 }

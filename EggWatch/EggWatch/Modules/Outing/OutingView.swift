@@ -116,6 +116,21 @@ struct OutingView: View {
                 }
             )
         }
+        .fullScreenCover(isPresented: $viewModel.showEndConfirm) {
+            OutingEndConfirmView(
+                onConfirm: {
+                    viewModel.endOuting()                         // 외출 종료 API 호출 (3.10)
+                },
+                onCancel: {
+                    viewModel.showEndConfirm = false              // 팝업만 닫기
+                }
+            )
+        }
+        .onChange(of: viewModel.shouldNavigateToHome) { _, navigate in
+            if navigate {
+                onOutingEnd()                                     // 홈 모드로 이동 (외부 콜백)
+            }
+        }
         .alert("로그아웃", isPresented: $showLogout) {
             Button("취소", role: .cancel) { }
             Button("로그아웃", role: .destructive) {
@@ -139,7 +154,9 @@ struct OutingView: View {
             }
             .underline()
             HStack(spacing: 12) {
-                Button(action: onOutingEnd) {
+                Button(action: {
+                    viewModel.showEndConfirm = true               // 외출 종료 확인 팝업 표시
+                }) {
                     Text("외출 종료")
                         .font(.semiBold16)
                         .foregroundStyle(.black)

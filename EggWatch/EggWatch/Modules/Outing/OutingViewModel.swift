@@ -64,4 +64,28 @@ final class OutingViewModel: ObservableObject {
             }
         }
     }
+
+    // MARK: - 자외선 차단제 다시 바르기 기록 (3.9)
+    // SuncreamConfirmView 확인 버튼 탭 시 호출
+    // 자동 종료 응답 분기 처리는 이후 단계에서 추가
+    func applySunscreen() {
+        isLoading = true
+        errorMessage = nil
+        let latitude = locationService.latitude
+        let longitude = locationService.longitude
+
+        outingService.applySunscreen(latitude: latitude, longitude: longitude) { [weak self] result in
+            Task { @MainActor in
+                guard let self = self else { return }
+                self.isLoading = false
+                switch result {
+                case .success(let response):
+                    self.outingContext = response.outing       // 기록 반영된 화면 데이터 갱신
+                    self.showSunscreenConfirm = false          // 확인 팝업 닫기
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
 }

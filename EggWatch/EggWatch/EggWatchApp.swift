@@ -91,6 +91,10 @@ struct EggWatchApp: App {
                     _ = AuthController.handleOpenUrl(url: url)  // 맞으면 카카오 SDK한테 URL 넘겨줘서 로그인 완료 처리
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .forceLogout)) { _ in
+                // Refresh 토큰도 만료된 경우 로그인 화면으로 강제 이동
+                isLoggedIn = false
+            }
         }
     }
 }

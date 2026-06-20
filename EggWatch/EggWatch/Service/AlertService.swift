@@ -4,56 +4,78 @@
 //
 //  Created by 최윤석 on 6/20/26.
 //
-//  알림함 조회/읽음 처리 API를 호출하는 서비스
 
 import Foundation
 import Moya
 
-// MARK: - 알림 서비스
 class AlertService {
 
-    // MARK: - Moya Provider
-    // AuthPlugin: accessToken 헤더 자동 첨부
-    // TokenRefreshPlugin: 401 시 자동 재발급
     private let provider = MoyaProvider<NotificationRouter>(plugins: [
         AuthPlugin(),
         TokenRefreshPlugin()
     ])
 
-    // MARK: - 알림함 조회 API 호출 (3.11)
-    // 읽지 않은 알림(isRead=false)만 최신순으로 반환됨
     func fetchNotifications(completion: @escaping (Result<NotificationListResponse, Error>) -> Void) {
         provider.request(.getList) { result in
             switch result {
             case .success(let response):
-                guard let wrapped = try? response.map(APIResponse<NotificationListResponse>.self),
-                      let data = wrapped.data else {
-                    completion(.failure(NSError(domain: "Notification", code: -1))) // 파싱 실패
+                guard let wrapped = try? response.map(APIResponse<NotificationListResponse>.self) else {
+                    completion(.failure(AlertError.parseFailed))
                     return
                 }
-                completion(.success(data))  // 성공 시 알림 목록 전달
+                if let data = wrapped.data {
+                    completion(.success(data))
+                } else if wrapped.code == APIError.notification404.rawValue {
+                    // 읽지 않은 알림 없음 — 빈 목록으로 정상 처리
+                    completion(.success(NotificationListResponse(
+                        unreadCount: 0,
+                        notifications: [],
+                        emptyMessage: wrapped.message
+                    )))
+                } else {
+                    completion(.failure(AlertError.parseFailed))
+                }
             case .failure(let error):
-                completion(.failure(error)) // 실패 시 에러 전달
+                completion(.failure(error))
             }
         }
     }
 
-    // MARK: - 알림 읽음 처리 API 호출 (3.12)
-    // 읽음 처리 후 남은 안 읽은 알림 목록을 반환
     func markAsRead(notificationId: Int,
                     completion: @escaping (Result<NotificationListResponse, Error>) -> Void) {
         provider.request(.markAsRead(notificationId: notificationId, isRead: true)) { result in
             switch result {
             case .success(let response):
-                guard let wrapped = try? response.map(APIResponse<NotificationListResponse>.self),
-                      let data = wrapped.data else {
-                    completion(.failure(NSError(domain: "Notification", code: -1))) // 파싱 실패
+                guard let wrapped = try? response.map(APIResponse<NotificationListResponse>.self) else {
+                    completion(.failure(AlertError.parseFailed))
                     return
                 }
-                completion(.success(data))  // 성공 시 갱신된 알림 목록 전달
+                if let data = wrapped.data {
+                    completion(.success(data))
+                } else if wrapped.code == APIError.notification404.rawValue {
+                    completion(.success(NotificationListResponse(
+                        unreadCount: 0,
+                        notifications: [],
+                        emptyMessage: wrapped.message
+                    )))
+                } else {
+                    completion(.failure(AlertError.parseFailed))
+                }
             case .failure(let error):
-                completion(.failure(error)) // 실패 시 에러 전달
+                completion(.failure(error))
             }
         }
     }
 }
+
+// MARK: - 알림 서비스 에러
+enum AlertError: LocalizedError {
+    case parseFailed
+
+    var errorDescription: String? {
+        switch self {
+        case .parseFailed: return "알림을 불러오지 못했어요. 잠시 후 다시 시도해주세요."
+        }
+    }
+}
+

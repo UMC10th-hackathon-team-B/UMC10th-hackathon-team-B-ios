@@ -62,7 +62,7 @@ struct UVSelectionView: View {
         VStack(alignment: .leading, spacing: 0) {
             Text("자외선 차단제를 언제 발랐나요?")
                 .font(.semiBold15)
-                .foregroundColor(Color.text01)
+                .foregroundStyle(Color.text01)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 12)
@@ -77,7 +77,7 @@ struct UVSelectionView: View {
                     HStack {
                         Text(option)
                             .font(.regular13)
-                            .foregroundColor(isSelected ? .white : .text01)
+                            .foregroundStyle(isSelected ? .white : .text01)
                         Spacer()
                     }
                     .padding(.horizontal, 20)

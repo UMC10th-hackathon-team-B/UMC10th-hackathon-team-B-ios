@@ -27,23 +27,23 @@ struct AgreementView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            AgreementNavigation
+            agreementNavigation
                 .padding(.horizontal, 22)
                 .padding(.bottom, 12)
             VStack(spacing: 0) {
-                AgreementTitle
+                agreementTitle
                     .padding(.bottom, 12)
-                AgreementCheckList
+                agreementCheckList
             }
             .padding(.horizontal, 35)
             Spacer()
-            AgreementBottomButtons
+            agreementBottomButtons
         }
         .background(Color.white)
     }
 
     // MARK: - 네비게이션 바
-    private var AgreementNavigation: some View {
+    private var agreementNavigation: some View {
         HStack(spacing: 8) {
             Button(action: {
                 dismiss()
@@ -63,7 +63,7 @@ struct AgreementView: View {
     }
 
     // MARK: - 타이틀
-    private var AgreementTitle: some View {
+    private var agreementTitle: some View {
         Text("서비스 이용을 위해 동의가 필요해요.")
             .font(.semiBold15)
             .foregroundStyle(.text01)
@@ -72,7 +72,7 @@ struct AgreementView: View {
     }
 
     // MARK: - 체크리스트
-    private var AgreementCheckList: some View {
+    private var agreementCheckList: some View {
         VStack(spacing: 0) {
             CheckRow(isChecked: $agreeAll, title: "전체 동의", isBold: true, showArrow: false)
                 .onChange(of: agreeAll) { _, newValue in
@@ -93,7 +93,7 @@ struct AgreementView: View {
     }
 
     // MARK: - 하단 버튼
-    private var AgreementBottomButtons: some View {
+    private var agreementBottomButtons: some View {
         Button(action: { if isAllAgreed { registerUser() } }) {
             Text("동의하고 시작하기")
                 .font(.medium16)

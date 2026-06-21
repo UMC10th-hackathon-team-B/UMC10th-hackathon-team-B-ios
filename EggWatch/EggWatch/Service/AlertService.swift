@@ -9,10 +9,11 @@ import Foundation
 import Moya
 
 class AlertService {
-
+    //eggwatchapp, tokenrefreshplugin, alertService, alertview, alertcardview
     private let provider = MoyaProvider<NotificationRouter>(plugins: [
         AuthPlugin(),
-        TokenRefreshPlugin()
+        TokenRefreshPlugin(),
+        NetworkLoggerPlugin()
     ])
 
     func fetchNotifications(completion: @escaping (Result<NotificationListResponse, Error>) -> Void) {

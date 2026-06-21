@@ -69,10 +69,15 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 WeatherInfoCard(weather: currentWeather)
                     .padding(.bottom, 70)
-                EggCharacterView(
-                    exposureLevel: exposureLevel,
-                    statusMessage: statusMessage
-                )
+                VStack(spacing: 20) {
+                    Image("home_egg")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 218, height: 216)
+                    Text(statusMessage)
+                        .font(.regular14)
+                        .foregroundStyle(Color.text01)
+                }
             }
             .padding(.horizontal, 43)
             Spacer()

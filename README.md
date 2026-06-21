@@ -13,7 +13,7 @@
 ## 👥 멤버
 | 리야 | 쵸파 | 큐큐 |  
 |:------:|:------:|:------:|  
-| <img src="https://github.com/user-attachments/assets/b02bfb79-6203-4eb1-9b74-5ab140a50c69" width="200" height="300" alt="" /> | <img src="https://github.com/user-attachments/assets/a6417baa-0bc0-4489-927c-662839c24cd4" width="200" height="300" /> | <img src="https://github.com/user-attachments/assets/9c8a5f05-d7ea-4bac-bf65-41ec417caf55" /> |
+| <img src="https://github.com/user-attachments/assets/b02bfb79-6203-4eb1-9b74-5ab140a50c69" width="200" height="300" alt="" /> | <img src="https://github.com/user-attachments/assets/a6417baa-0bc0-4489-927c-662839c24cd4" width="200" height="300" /> | <img src="https://github.com/user-attachments/assets/9c8a5f05-d7ea-4bac-bf65-41ec417caf55" width="200" height="300" /> |
 | PL | FE | FE |  
 | [GitHub](https://github.com/guingguing) | [GitHub](https://github.com/BeginnerKJS) | [GitHub](https://github.com/bella411) |
 

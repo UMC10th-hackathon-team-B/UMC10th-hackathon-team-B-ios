@@ -1,5 +1,6 @@
 # 🐣 계란주의보
-<img width="257" height="136" alt="스크린샷 2026-01-09 오전 12 29 23" src="https://github.com/user-attachments/assets/b43ab4ef-564e-4f16-b2d7-0b3b5224af8d" />
+<img src="https://github.com/user-attachments/assets/25bb66aa-6864-491f-8d0b-a0a955c691c3" width="218" height="216" alt="계란주의보" />
+
 
 
 > 계란주의보: 현재 위치의 자외선 지수와 날씨를 기반으로 맞춤형 알림을 제공하고, 선크림 도포 상태를 귀여운 계란 캐릭터로 시각화하는 iOS 앱입니다.
@@ -12,12 +13,11 @@
 ## 👥 멤버
 | 리야 | 쵸파 | 큐큐 |  
 |:------:|:------:|:------:|  
-| <img src="https://github.com/user-attachments/assets/71d51935-82fc-4225-b2dc-3cebbd426a5c" width="200" height="300" alt="IMG_6758" /> | <img src="https://github.com/user-attachments/assets/95c98c91-e35a-40c4-a83f-b6b627d1d14f" width="200" height="300" /> | <img src="https://github.com/user-attachments/assets/17b81e2b-766d-4358-a1ef-74052ee39027" width="200" height="300" alt="IMG_6758" /> |
-| PL | FE | FE |  
-| [GitHub](https://github.com/guingguing) | [GitHub](https://github.com/BeginnerKJS) | [GitHub](https://github.com/bella411) |
+| <img src="https://github.com/user-attachments/assets/b02bfb79-6203-4eb1-9b74-5ab140a50c69" width="200" height="300" alt="" /> | <img src="https://github.com/user-attachments/assets/a6417baa-0bc0-4489-927c-662839c24cd4" width="200" height="300" /> | <img src="https://github.com/user-attachments/assets/9c8a5f05-d7ea-4bac-bf65-41ec417caf55" width="200" height="300" alt="" /> |
+| FE | FE | FE |  
+| [GitHub](https://github.com/choiyunseok0) | [GitHub](https://github.com/gkswlals104) | [GitHub](https://github.com/junyear) |
 
 <br>
-
 
 ## 📱 소개
 
@@ -191,6 +191,10 @@ git checkout develop
 
 ## 🔖 브랜치 컨벤션
 
+### 🌿 브랜치 네이밍 규칙
+> **feat/#{issueNumber}-{기능내용}**
+예 : feat/#1-home-view
+
 ### 🪵 브랜치 전략
 - **main** : 출시 가능한 상태의 코드를 모아두는 브랜치 (직접 push ❌, PR로만 병합)
 - **dev** : 다음 버전을 위해 개발 중인 코드를 모으는 브랜치 (기본 베이스)
@@ -199,8 +203,6 @@ git checkout develop
 
 ### 🌿 PR 네이밍 규칙
 > **[{태그}]-{기능설명}**
-
-[Feat] 리야 10주차 과제제출
 
 1. **태그**는 첫글자만 대문자로 작성합니다. 최대 4글자까지 작성합니다.
 2. **기능설명**은 짧은 영어 단어로, 띄어쓰기는 언더바(_)으로 연결합니다.

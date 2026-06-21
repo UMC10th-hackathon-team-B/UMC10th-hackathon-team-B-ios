@@ -1,6 +1,7 @@
+
 # 🐣 계란주의보
 <img src="https://github.com/user-attachments/assets/실제이미지URL" width="218" height="216" alt="계란주의보" />
-" />
+
 
 
 > 계란주의보: 현재 위치의 자외선 지수와 날씨를 기반으로 맞춤형 알림을 제공하고, 선크림 도포 상태를 귀여운 계란 캐릭터로 시각화하는 iOS 앱입니다.
@@ -13,7 +14,7 @@
 ## 👥 멤버
 | 리야 | 쵸파 | 큐큐 |  
 |:------:|:------:|:------:|  
-| <img src="" width="200" height="300" alt="" /> | <img src="" width="200" height="300" /> | <img src="" width="200" height="300" alt="" /> |
+| <img src="" width="200" height="300" alt="" /> | <img src="https://github.com/user-attachments/assets/613064b9-7429-481f-8f5e-440502d17b8a" width="200" height="300" /> | <img src="https://github.com/user-attachments/assets/613064b9-7429-481f-8f5e-440502d17b8a" width="200" height="300" alt="" /> |
 | PL | FE | FE |  
 | [GitHub](https://github.com/guingguing) | [GitHub](https://github.com/BeginnerKJS) | [GitHub](https://github.com/bella411) |
 

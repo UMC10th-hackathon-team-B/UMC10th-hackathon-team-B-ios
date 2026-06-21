@@ -13,7 +13,7 @@ struct EggWatchNavigationBar: View {
             case .home:
                 Text("계란주의보")
                     .font(.medium16)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.text01)
             case .outing:
                 Text("외출 중")
                     .font(.medium16)
@@ -22,7 +22,7 @@ struct EggWatchNavigationBar: View {
                     .padding(.vertical, 4)
                     .background(
                         Capsule()
-                            .fill(Color.yellow01)
+                            .fill(Color.yellow02)
                     )
             }
             Spacer()
@@ -31,21 +31,21 @@ struct EggWatchNavigationBar: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 16, height: 16)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.text01)
             }
             Button(action: onAlertTap) {
                 Image(.bell)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 16, height: 16)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.text01)
             }
             Button(action: { onLogoutTap?() }) {
                 Image(.logout)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 16, height: 16)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.text01)
             }
         }
         .padding(.horizontal, 22)

@@ -2,7 +2,6 @@ import SwiftUI
 import Combine
 
 enum AppScreen {
-    case splash
     case agreement
     case home
     case uvSelection
@@ -39,8 +38,5 @@ class AppRouter: ObservableObject {
     }
     func goBack() {
         currentScreen = previousScreen
-    }
-    func goToSplash() {
-        currentScreen = .splash
     }
 }

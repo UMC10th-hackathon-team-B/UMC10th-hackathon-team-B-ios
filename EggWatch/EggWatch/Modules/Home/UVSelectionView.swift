@@ -46,11 +46,12 @@ struct UVSelectionView: View {
         HStack(spacing: 8) {
             Button(action: onBack) {
                 Image(systemName: "chevron.left")
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.text01)
                     .frame(width: 24, height: 24)
             }
             Text("외출 시작")
                 .font(.medium16)
+                .foregroundStyle(.text01)
             Spacer()
         }
         .padding(.vertical, 24)
@@ -60,11 +61,8 @@ struct UVSelectionView: View {
     private var UVSelectionTitle: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("자외선 차단제를 언제 발랐나요?")
-                .font(.regular14)
-                .foregroundColor(Color.black)
-            Text("선택한 시간을 기준으로 외출 세션이 시작돼요.")
-                .font(.regular12)
-                .foregroundColor(Color.gray02)
+                .font(.semiBold15)
+                .foregroundColor(Color.text01)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 12)
@@ -72,25 +70,24 @@ struct UVSelectionView: View {
 
     // MARK: - 선택 리스트
     private var UVSelectionList: some View {
-        VStack(spacing: 0) {
-            ForEach(Array(options.enumerated()), id: \.element) { index, option in
-                Button(action: {
-                    selectedOption = option
-                }) {
+        VStack(spacing: 8) {
+            ForEach(options, id: \.self) { option in
+                let isSelected = selectedOption == option
+                Button(action: { selectedOption = option }) {
                     HStack {
                         Text(option)
-                            .font(.regular14)
-                            .foregroundColor(selectedOption == option ? .white : .black)
+                            .font(.regular13)
+                            .foregroundColor(isSelected ? .white : .text01)
                         Spacer()
                     }
                     .padding(.horizontal, 20)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .frame(height: 42)
-                    .background(selectedOption == option ? .text01 : .gray01)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 48)
+                    .background(isSelected ? Color.text01 : Color.gray01,
+                                in: RoundedRectangle(cornerRadius: 16))
                 }
             }
         }
-        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     // MARK: - 하단 버튼
@@ -102,16 +99,11 @@ struct UVSelectionView: View {
                 }
             }) {
                 Text("외출하기")
-                    .font(.semiBold16)
-                    .foregroundStyle(.black)
+                    .font(.medium16)
+                    .foregroundStyle(.text01)
                     .frame(maxWidth: .infinity)
                     .frame(height: 48)
-                    .glassEffect(
-                        .regular
-                            .tint(Color.yellow01.opacity(0.6))
-                            .interactive(),
-                        in: .capsule
-                    )
+                    .background(Color.yellow02, in: .capsule)
             }
             .disabled(selectedOption == nil)
         }

@@ -114,16 +114,11 @@ struct HomeView: View {
                 }
             }) {
                 Text("외출 시작")
-                    .font(.semiBold16)
-                    .foregroundStyle(.black)
+                    .font(.medium16)
+                    .foregroundStyle(.text01)
                     .frame(maxWidth: .infinity)
                     .frame(height: 48)
-                    .glassEffect(
-                        .regular
-                            .tint(Color.yellow01.opacity(0.6))
-                            .interactive(),
-                        in: .capsule
-                    )
+                    .background(Color.yellow02, in: .capsule)
             }
         }
         .padding(.horizontal, 61)

@@ -49,14 +49,14 @@ struct AgreementView: View {
                 dismiss()
             }) {
                 Image(systemName: "chevron.left")
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(.text01)
                     .frame(width: 24, height: 24)
             }
             .buttonStyle(.plain)
 
             Text("약관 동의")
                 .font(.medium16)
-                .foregroundStyle(Color.black)
+                .foregroundStyle(.text01)
             Spacer()
         }
         .frame(height: 72)
@@ -65,8 +65,8 @@ struct AgreementView: View {
     // MARK: - 타이틀
     private var AgreementTitle: some View {
         Text("서비스 이용을 위해 동의가 필요해요.")
-            .font(.regular14)
-            .foregroundStyle(.black)
+            .font(.semiBold15)
+            .foregroundStyle(.text01)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical, 12)
     }
@@ -96,17 +96,12 @@ struct AgreementView: View {
     private var AgreementBottomButtons: some View {
         Button(action: { if isAllAgreed { registerUser() } }) {
             Text("동의하고 시작하기")
-                .font(.semiBold16)
-                .foregroundStyle(.black)
+                .font(.medium16)
+                .foregroundStyle(.text01)
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
+                .background(Color.yellow02, in: .capsule)
         }
-        .glassEffect(
-            .regular
-                .tint(Color.yellow01.opacity(0.6))
-                .interactive(),
-            in: .capsule
-        )
         .disabled(!isAllAgreed)
         .padding(.horizontal, 61)
         .padding(.bottom, 80)
@@ -173,8 +168,8 @@ struct CheckRow: View {
                 }
             }
             Text(title)
-                .font(isBold ? .semiBold12 : .regular12)
-                .foregroundStyle(.black)
+                .font(isBold ? .semiBold15 : .regular13)
+                .foregroundStyle(.text01)
             Spacer()
         }
         .padding(.horizontal, 20)

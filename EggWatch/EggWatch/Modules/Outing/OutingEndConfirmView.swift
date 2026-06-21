@@ -13,29 +13,24 @@ struct OutingEndConfirmView: View {
             )
             Text("외출을 종료할까요?")
                 .font(.semiBold20)
-                .foregroundStyle(.black)
+                .foregroundStyle(.text01)
                 .padding(.bottom, 6)
             Text("외출 모드가 종료되고 홈 모드로 돌아가요.")
                 .font(.regular12)
-                .foregroundStyle(.black)
+                .foregroundStyle(.text01)
             Spacer()
             HStack(spacing: 12) {
                 Button(action: onConfirm) {
                     Text("종료하기")
-                        .font(.semiBold16)
-                        .foregroundStyle(.black)
+                        .font(.medium16)
+                        .foregroundStyle(.text01)
                         .frame(maxWidth: .infinity)
                         .frame(height: 48)
-                        .glassEffect(
-                            .regular
-                                .tint(Color.yellow01.opacity(0.6))
-                                .interactive(),
-                            in: .capsule
-                        )
+                        .background(Color.yellow02, in: .capsule)
                 }
                 Button(action: onCancel) {
                     Text("취소")
-                        .font(.semiBold16)
+                        .font(.medium16)
                         .foregroundStyle(.black)
                         .frame(width: 84, height: 48)
                 }

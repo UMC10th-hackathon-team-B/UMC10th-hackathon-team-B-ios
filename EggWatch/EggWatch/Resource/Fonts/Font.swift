@@ -33,17 +33,21 @@ extension Font {
     
     // semi
     static let semiBold12: Font = .chiron(.semi, size: 12)
+    static let semiBold15: Font = .chiron(.semi, size: 15)
     static let semiBold16: Font = .chiron(.semi, size: 16)
     static let semiBold18: Font = .chiron(.semi, size: 18)
     static let semiBold20: Font = .chiron(.semi, size: 20)
     
     // medium
     static let medium12: Font = .chiron(.medium, size: 12)
+    static let medium13: Font = .chiron(.medium, size: 13)
     static let medium14: Font = .chiron(.medium, size: 14)
     static let medium16: Font = .chiron(.medium, size: 16)
     
     // regular
     static let regular9: Font = .chiron(.regular, size: 9)
+    static let regular11: Font = .chiron(.regular, size:11)
     static let regular12: Font = .chiron(.regular, size: 12)
+    static let regular13: Font = .chiron(.regular, size: 13)
     static let regular14: Font = .chiron(.regular, size: 14)
 }

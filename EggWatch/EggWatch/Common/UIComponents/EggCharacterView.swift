@@ -20,11 +20,10 @@ struct EggCharacterView: View {
             Image(eggImageName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 160, height: 216)
-                .padding(.bottom, 20)
+                .frame(width: 218, height: 216)
             Text(statusMessage)
                 .font(.regular14)
-                .foregroundStyle(Color.black)
+                .foregroundStyle(Color.text01)
         }
     }
 }

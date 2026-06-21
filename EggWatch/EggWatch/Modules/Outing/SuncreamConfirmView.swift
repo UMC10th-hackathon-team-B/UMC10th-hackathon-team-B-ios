@@ -21,10 +21,10 @@ struct SuncreamConfirmView: View {
     private var suncreamTitle: some View {
         VStack(spacing: 8) {
             Text("차단제를 다시 바르셨나요?")
-                .font(.semiBold16)
-                .foregroundStyle(.black)
+                .font(.semiBold18)
+                .foregroundStyle(.text01)
             Text("다시 바른 것이 맞으면 현재 시간으로 기록돼요.")
-                .font(.regular12)
+                .font(.regular13)
                 .foregroundStyle(Color.gray02)
                 .multilineTextAlignment(.center)
         }
@@ -37,30 +37,19 @@ struct SuncreamConfirmView: View {
         VStack(spacing: 8) {
             Button(action: onConfirm) {
                 Text("네, 다시 발랐어요")
-                    .font(.semiBold16)
+                    .font(.medium16)
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity)
                     .frame(height: 48)
-                    .glassEffect(
-                        .regular
-                            .tint(Color.yellow01.opacity(0.6))
-                            .interactive(),
-                        in: .capsule
-                    )
+                    .background(Color.yellow02, in: .capsule)
             }
 
             Button(action: onCancel) {
                 Text("아니요, 안 발랐어요.")
-                    .font(.semiBold16)
+                    .font(.medium16)
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity)
                     .frame(height: 48)
-                    .glassEffect(
-                        .regular
-                            .tint(Color.white.opacity(0.6))
-                            .interactive(),
-                        in: .capsule
-                    )
             }
         }
         .padding(.horizontal, 20)

@@ -9,11 +9,22 @@ import SwiftUI
 
 struct UVSelectionView: View {
     let onBack: () -> Void
-    let onOutingStart: () -> Void
+    let onOutingStart: (SunscreenAppliedOption) -> Void
 
     @State private var selectedOption: String? = nil
 
     let options = ["5분 전", "15분 전", "30분 전", "1시간 전", "2시간 전", "안 발랐어요"]
+
+    private func mapToOption(_ text: String) -> SunscreenAppliedOption {
+        switch text {
+        case "5분 전": return .before5Minutes
+        case "15분 전": return .before15Minutes
+        case "30분 전": return .before30Minutes
+        case "1시간 전": return .before60Minutes
+        case "2시간 전": return .before120Minutes
+        default: return .none
+        }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -85,7 +96,11 @@ struct UVSelectionView: View {
     // MARK: - 하단 버튼
     private var UVSelectionActionButtons: some View {
         HStack(spacing: 0) {
-            Button(action: onOutingStart) {
+            Button(action: {
+                if let option = selectedOption {
+                    onOutingStart(mapToOption(option))
+                }
+            }) {
                 Text("외출하기")
                     .font(.semiBold16)
                     .foregroundStyle(.black)
@@ -107,6 +122,6 @@ struct UVSelectionView: View {
 
 #Preview {
     UVSelectionView(
-        onBack: { }, onOutingStart: { }
+        onBack: { }, onOutingStart: { _ in }
     )
 }

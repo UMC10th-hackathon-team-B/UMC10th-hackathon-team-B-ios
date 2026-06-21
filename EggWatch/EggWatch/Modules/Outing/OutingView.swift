@@ -1,22 +1,21 @@
 import SwiftUI
 
 struct OutingView: View {
+    @EnvironmentObject private var router: AppRouter
+    @ObservedObject var viewModel: OutingViewModel
+
     let onOutingEnd: () -> Void
     let onAlertTap: () -> Void
-
-    @StateObject private var viewModel: OutingViewModel
 
     @State private var showLogout: Bool = false
     @State private var outingElapsedSeconds: Int = 0
 
     init(onOutingEnd: @escaping () -> Void,
          onAlertTap: @escaping () -> Void,
-         locationService: LocationService) {
+         viewModel: OutingViewModel) {
         self.onOutingEnd = onOutingEnd
         self.onAlertTap = onAlertTap
-        self._viewModel = StateObject(
-            wrappedValue: OutingViewModel(locationService: locationService)
-        )
+        self.viewModel = viewModel
     }
 
     // MARK: - 화면 표시용 변환 (명세서 모델 → 기존 UI 컴포넌트 모델)
@@ -79,7 +78,7 @@ struct OutingView: View {
                 alertCount: alertCount,
                 onAlertTap: { onAlertTap() },
                 onRefreshTap: {
-                    viewModel.fetchCurrent()         // 새로고침 시 외출 화면 재조회
+                    viewModel.fetchCurrent()                     // 새로고침 시 외출 화면 재조회
                 },
                 onLogoutTap: {
                     showLogout = true
@@ -98,7 +97,10 @@ struct OutingView: View {
             outingActionButtons
         }
         .onAppear {
-            viewModel.fetchCurrent()                 // 화면 진입 시 외출 데이터 로딩
+            // 진입 시 한 번만 조회 (중복 호출 방지)
+            if viewModel.outingContext == nil && !viewModel.isLoading {
+                viewModel.fetchCurrent()
+            }
         }
         .task {
             while !Task.isCancelled {
@@ -129,7 +131,8 @@ struct OutingView: View {
         .onChange(of: viewModel.shouldNavigateToHome) { _, navigate in
             // 자동 종료 안내 팝업이 있으면 사용자 확인 후 이동, 없으면 즉시 이동
             if navigate && !viewModel.showAutoEndPopup {
-                onOutingEnd()                                     // 홈 모드로 이동 (외부 콜백)
+                viewModel.shouldNavigateToHome = false
+                router.goToHome()
             }
         }
         .overlay {
@@ -139,7 +142,8 @@ struct OutingView: View {
                     Color.black.opacity(0.4).ignoresSafeArea()
                     UVTimeoutPopupView {
                         viewModel.showAutoEndPopup = false
-                        onOutingEnd()                             // 확인 후 홈 모드로 이동
+                        viewModel.shouldNavigateToHome = false
+                        router.goToHome()
                     }
                 }
             }
@@ -150,7 +154,7 @@ struct OutingView: View {
                 ZStack {
                     Color.black.opacity(0.4).ignoresSafeArea()
                     UVNotAvailablePopupView {
-                        viewModel.showUVNotAvailablePopup = false  // 팝업만 닫기
+                        viewModel.showUVNotAvailablePopup = false
                     }
                 }
             }
@@ -219,6 +223,7 @@ struct OutingView: View {
     OutingView(
         onOutingEnd: { },
         onAlertTap: { },
-        locationService: LocationService()
+        viewModel: OutingViewModel(locationService: LocationService())
     )
+    .environmentObject(AppRouter())
 }

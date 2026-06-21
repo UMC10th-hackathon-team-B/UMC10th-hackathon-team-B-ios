@@ -1,4 +1,8 @@
 
+
+
+
+<img width="504" height="720" alt="KakaoTalk_Photo_2026-06-21-15-51-13" src="https://github.com/user-attachments/assets/a6417baa-0bc0-4489-927c-662839c24cd4" />
 # 🐣 계란주의보
 <img src="https://github.com/user-attachments/assets/실제이미지URL" width="218" height="216" alt="계란주의보" />
 
@@ -14,7 +18,8 @@
 ## 👥 멤버
 | 리야 | 쵸파 | 큐큐 |  
 |:------:|:------:|:------:|  
-| <img src="" width="200" height="300" alt="" /> | <img src="https://github.com/user-attachments/assets/613064b9-7429-481f-8f5e-440502d17b8a" width="200" height="300" /> | <img src="https://github.com/user-attachments/assets/613064b9-7429-481f-8f5e-440502d17b8a" width="200" height="300" alt="" /> |
+| <img src="https://github.com/user-attachments/assets/b02bfb79-6203-4eb1-9b74-5ab140a50c69" width="200" height="300" alt="" /> | <img src="https://github.com/user-attachments/assets/a6417baa-0bc0-4489-927c-662839c24cd4" width="200" height="300" /> | <img src="<img width="2591" height="4027" alt="KakaoTalk_Photo_2026-06-21-15-50-28" src="https://github.com/user-attachments/assets/9c8a5f05-d7ea-4bac-bf65-41ec417caf55" />
+" width="200" height="300" alt="" /> |
 | PL | FE | FE |  
 | [GitHub](https://github.com/guingguing) | [GitHub](https://github.com/BeginnerKJS) | [GitHub](https://github.com/bella411) |
 

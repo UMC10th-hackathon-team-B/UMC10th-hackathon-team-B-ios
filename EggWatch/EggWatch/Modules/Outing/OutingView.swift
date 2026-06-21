@@ -175,15 +175,10 @@ struct OutingView: View {
     // MARK: - 하단 버튼
     private var outingActionButtons: some View {
         VStack(spacing: 10) {
-            HStack(spacing: 0) {
-                Text("마지막 기록: \(lastRecordTime) ")
-                    .font(.regular9)
-                    .foregroundStyle(.gray02)
-                Text("(\(lastRecordAgo))")
-                    .font(.regular9)
-                    .foregroundStyle(.gray02)
-            }
-            .underline()
+            Text(lastRecordAgo)
+                .font(.regular9)
+                .foregroundStyle(.gray02)
+                .underline()
             HStack(spacing: 12) {
                 Button(action: {
                     viewModel.showEndConfirm = true               // 외출 종료 확인 팝업 표시

@@ -3,23 +3,24 @@ import SwiftUI
 struct AlertView: View {
     let onBack: () -> Void
 
-    // TODO: 백엔드 연결 시 외부에서 주입받도록 교체
-    let alerts: [AlertItem] = [
-        AlertItem(title: "자외선 차단제를 발라주세요.", message: "계란이가 많이 익었어요. 자외선 노출에 주의해주세요.", time: "13:00"),
-        AlertItem(title: "오늘 자외선은 안심 수준이에요.", message: "현재 자외선 지수는 안심 수준이에요.", time: "13:00"),
-        AlertItem(title: "오늘 자외선은 보통이에요.", message: "현재 자외선 지수는 안심 수준이에요.", time: "13:00"),
-    ]
+    @StateObject private var viewModel = AlertViewModel()
 
     var body: some View {
         VStack(spacing: 0) {
             alertNavigation
                 .padding(.horizontal, 22)
-                .padding(.bottom, 12)
-            alertList
-                .padding(.horizontal, 35)
+            alertContent
         }
         .background(Color.white)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear {
+            viewModel.fetchNotifications()
+        }
+        .overlay {
+            if viewModel.isLoading {
+                ProgressView()
+            }
+        }
     }
 
     // MARK: - 네비게이션 바
@@ -39,14 +40,46 @@ struct AlertView: View {
         .background(Color.white)
     }
 
-    // MARK: - 알림 목록
+    // MARK: - 알림 목록 / 빈 상태 / 에러 상태
+    @ViewBuilder
+    private var alertContent: some View {
+        if let error = viewModel.errorMessage {
+            emptyStateView(message: error)
+        } else if viewModel.notifications.isEmpty && !viewModel.isLoading {
+            emptyStateView(message: viewModel.emptyMessage ?? "아직 확인할 알림이 없어요.")
+        } else {
+            alertList
+        }
+    }
+
     private var alertList: some View {
-        ScrollView {
-            LazyVStack(spacing: 10) {
-                ForEach(alerts) { item in
-                    AlertCardView(item: item)
-                }
+        List {
+            ForEach(viewModel.notifications) { item in
+                AlertCardView(item: item)
+                    .listRowBackground(Color.white)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 5, leading: 35, bottom: 5, trailing: 35))
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            viewModel.markAsRead(notificationId: item.notificationId)
+                        } label: {
+                            Label("삭제", systemImage: "trash")
+                        }
+                    }
             }
+        }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+    }
+
+    private func emptyStateView(message: String) -> some View {
+        VStack {
+            Spacer()
+            Text(message)
+                .font(.regular12)
+                .foregroundStyle(Color.gray02)
+                .multilineTextAlignment(.center)
+            Spacer()
         }
     }
 }
@@ -54,4 +87,3 @@ struct AlertView: View {
 #Preview {
     AlertView(onBack: {})
 }
-

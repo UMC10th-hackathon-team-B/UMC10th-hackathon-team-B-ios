@@ -76,11 +76,9 @@ struct OutingView: View {
             EggWatchNavigationBar(
                 mode: .outing,
                 alertCount: alertCount,
-                onAlertTap: {
-                    onAlertTap()
-                },
+                onAlertTap: { onAlertTap() },
                 onRefreshTap: {
-                    viewModel.fetchCurrent()         // 새로고침 시 외출 화면 재조회
+                    viewModel.fetchCurrent()                     // 새로고침 시 외출 화면 재조회
                 },
                 onLogoutTap: {
                     showLogout = true
@@ -99,8 +97,9 @@ struct OutingView: View {
             outingActionButtons
         }
         .onAppear {
+            // 진입 시 한 번만 조회 (중복 호출 방지)
             if viewModel.outingContext == nil && !viewModel.isLoading {
-                viewModel.fetchCurrent()                 // 화면 진입 시 외출 데이터 로딩
+                viewModel.fetchCurrent()
             }
         }
         .task {
@@ -112,44 +111,62 @@ struct OutingView: View {
         .sheet(isPresented: $viewModel.showSunscreenConfirm) {
             SuncreamConfirmView(
                 onConfirm: {
-                    viewModel.applySunscreen()
+                    viewModel.applySunscreen()                   // 선크림 기록 API 호출 (3.9)
                 },
                 onCancel: {
-                    viewModel.showSunscreenConfirm = false
+                    viewModel.showSunscreenConfirm = false        // 팝업만 닫기
                 }
             )
         }
+        .fullScreenCover(isPresented: $viewModel.showEndConfirm) {
+            OutingEndConfirmView(
+                onConfirm: {
+                    viewModel.endOuting()                         // 외출 종료 API 호출 (3.10)
+                },
+                onCancel: {
+                    viewModel.showEndConfirm = false              // 팝업만 닫기
+                }
+            )
+        }
+        .onChange(of: viewModel.shouldNavigateToHome) { _, navigate in
+            // 자동 종료 안내 팝업이 있으면 사용자 확인 후 이동, 없으면 즉시 이동
+            if navigate && !viewModel.showAutoEndPopup {
+                viewModel.shouldNavigateToHome = false
+                router.goToHome()
+            }
+        }
+        .overlay {
+            // 자동 종료(저녁 8시 이후) 안내 팝업 (1.6)
+            if viewModel.showAutoEndPopup {
+                ZStack {
+                    Color.black.opacity(0.4).ignoresSafeArea()
+                    UVTimeoutPopupView {
+                        viewModel.showAutoEndPopup = false
+                        viewModel.shouldNavigateToHome = false
+                        router.goToHome()
+                    }
+                }
+            }
+        }
+        .overlay {
+            // 이용 제한 시간(OUTING_400 등) 안내 팝업
+            if viewModel.showUVNotAvailablePopup {
+                ZStack {
+                    Color.black.opacity(0.4).ignoresSafeArea()
+                    UVNotAvailablePopupView {
+                        viewModel.showUVNotAvailablePopup = false
+                    }
+                }
+            }
+        }
         .alert("로그아웃", isPresented: $showLogout) {
             Button("취소", role: .cancel) { }
-            Button("로그아웃", role: roleLogout) {
+            Button("로그아웃", role: .destructive) {
                 // TODO: 로그아웃 로직 연결
             }
         } message: {
             Text("정말 로그아웃할까요?")
         }
-        .overlay {
-            if viewModel.showAutoEndPopup {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                UVTimeoutPopupView {
-                    viewModel.showAutoEndPopup = false
-                    viewModel.shouldNavigateToHome = false
-                    router.goToHome()
-                }
-            }
-            if viewModel.showUVNotAvailablePopup {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                UVNotAvailablePopupView {
-                    viewModel.showUVNotAvailablePopup = false
-                    router.goToHome()
-                }
-            }
-        }
-    }
-
-    private var roleLogout: ButtonRole? {
-        .destructive
     }
 
     // MARK: - 하단 버튼
@@ -165,7 +182,9 @@ struct OutingView: View {
             }
             .underline()
             HStack(spacing: 12) {
-                Button(action: onOutingEnd) {
+                Button(action: {
+                    viewModel.showEndConfirm = true               // 외출 종료 확인 팝업 표시
+                }) {
                     Text("외출 종료")
                         .font(.semiBold16)
                         .foregroundStyle(.black)
@@ -179,7 +198,7 @@ struct OutingView: View {
                         )
                 }
                 Button(action: {
-                    viewModel.showSunscreenConfirm = true
+                    viewModel.showSunscreenConfirm = true         // 선크림 확인 팝업 표시
                 }) {
                     Text("자외선 차단제 기록")
                         .font(.semiBold16)
@@ -202,6 +221,9 @@ struct OutingView: View {
 
 #Preview {
     OutingView(
-        onOutingEnd: { }, onAlertTap: { }, viewModel: OutingViewModel(locationService: LocationService())
+        onOutingEnd: { },
+        onAlertTap: { },
+        viewModel: OutingViewModel(locationService: LocationService())
     )
+    .environmentObject(AppRouter())
 }

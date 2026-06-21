@@ -1,6 +1,7 @@
-[home_egg.pdf](https://github.com/user-attachments/files/29172265/home_egg.pdf)
+
+
 # 🐣 계란주의보
-<img src="https://github.com/user-attachments/files/29172265/home_egg.pdf" width="218" height="216" alt="계란주의보" />
+<img src="https://github.com/user-attachments/assets/25bb66aa-6864-491f-8d0b-a0a955c691c3" width="218" height="216" alt="계란주의보" />
 
 
 

@@ -1,5 +1,3 @@
-
-
 # 🐣 계란주의보
 <img src="https://github.com/user-attachments/assets/25bb66aa-6864-491f-8d0b-a0a955c691c3" width="218" height="216" alt="계란주의보" />
 
@@ -16,8 +14,8 @@
 | 리야 | 쵸파 | 큐큐 |  
 |:------:|:------:|:------:|  
 | <img src="https://github.com/user-attachments/assets/b02bfb79-6203-4eb1-9b74-5ab140a50c69" width="200" height="300" alt="" /> | <img src="https://github.com/user-attachments/assets/a6417baa-0bc0-4489-927c-662839c24cd4" width="200" height="300" /> | <img src="https://github.com/user-attachments/assets/9c8a5f05-d7ea-4bac-bf65-41ec417caf55" width="200" height="300" alt="" /> |
-| PL | FE | FE |  
-| [GitHub](https://github.com/guingguing) | [GitHub](https://github.com/BeginnerKJS) | [GitHub](https://github.com/bella411) |
+| FE | FE | FE |  
+| [[GitHub](https://github.com/choiyunseok0)] | [GitHub](https://github.com/gkswlals104) | [GitHub](https://github.com/junyear) |
 
 <br>
 

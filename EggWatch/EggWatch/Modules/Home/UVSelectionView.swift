@@ -28,21 +28,21 @@ struct UVSelectionView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            UVSelectionNavigation
+            uvSelectionNavigation
                 .padding(.horizontal, 22)
                 .padding(.bottom, 12)
-            UVSelectionTitle
+            uvSelectionTitle
                 .padding(.horizontal, 35)
                 .padding(.bottom,12)
-            UVSelectionList
+            uvSelectionList
                 .padding(.horizontal, 35)
             Spacer()
-            UVSelectionActionButtons
+            uvSelectionActionButtons
         }
     }
 
     // MARK: - 네비게이션 바
-    private var UVSelectionNavigation: some View {
+    private var uvSelectionNavigation: some View {
         HStack(spacing: 8) {
             Button(action: onBack) {
                 Image(systemName: "chevron.left")
@@ -58,7 +58,7 @@ struct UVSelectionView: View {
     }
 
     // MARK: - 메인 질문 및 안내 문구
-    private var UVSelectionTitle: some View {
+    private var uvSelectionTitle: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("자외선 차단제를 언제 발랐나요?")
                 .font(.semiBold15)
@@ -69,7 +69,7 @@ struct UVSelectionView: View {
     }
 
     // MARK: - 선택 리스트
-    private var UVSelectionList: some View {
+    private var uvSelectionList: some View {
         VStack(spacing: 8) {
             ForEach(options, id: \.self) { option in
                 let isSelected = selectedOption == option
@@ -91,7 +91,7 @@ struct UVSelectionView: View {
     }
 
     // MARK: - 하단 버튼
-    private var UVSelectionActionButtons: some View {
+    private var uvSelectionActionButtons: some View {
         HStack(spacing: 0) {
             Button(action: {
                 if let option = selectedOption {

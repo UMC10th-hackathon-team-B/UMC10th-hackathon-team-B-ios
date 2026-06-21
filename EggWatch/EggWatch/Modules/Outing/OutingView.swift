@@ -6,15 +6,18 @@ struct OutingView: View {
 
     let onOutingEnd: () -> Void
     let onAlertTap: () -> Void
+    let onLogout: () -> Void
 
     @State private var showLogout: Bool = false
     @State private var outingElapsedSeconds: Int = 0
 
     init(onOutingEnd: @escaping () -> Void,
          onAlertTap: @escaping () -> Void,
+         onLogout: @escaping () -> Void,
          viewModel: OutingViewModel) {
         self.onOutingEnd = onOutingEnd
         self.onAlertTap = onAlertTap
+        self.onLogout = onLogout
         self.viewModel = viewModel
     }
 
@@ -162,7 +165,7 @@ struct OutingView: View {
         .alert("로그아웃", isPresented: $showLogout) {
             Button("취소", role: .cancel) { }
             Button("로그아웃", role: .destructive) {
-                // TODO: 로그아웃 로직 연결
+                onLogout()
             }
         } message: {
             Text("정말 로그아웃할까요?")
@@ -218,6 +221,7 @@ struct OutingView: View {
     OutingView(
         onOutingEnd: { },
         onAlertTap: { },
+        onLogout: { },
         viewModel: OutingViewModel(locationService: LocationService())
     )
     .environmentObject(AppRouter())

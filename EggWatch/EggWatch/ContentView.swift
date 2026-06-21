@@ -50,6 +50,7 @@ struct ContentView: View {
                     onAlertTap: {
                         router.goToAlert()
                     },
+                    onLogout: onLogout,
                     viewModel: outingViewModel
                 )
 

@@ -95,6 +95,16 @@ struct HomeView: View {
                 }
             }
         }
+        .overlay {
+            if viewModel.isLoading {
+                Color.black.opacity(0.3)
+                    .ignoresSafeArea()
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.white)
+                    .scaleEffect(1.5)
+            }
+        }
         .alert("로그아웃", isPresented: $showLogout) {
             Button("취소", role: .cancel) { }
             Button("로그아웃", role: .destructive) {

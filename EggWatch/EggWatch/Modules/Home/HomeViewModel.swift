@@ -20,7 +20,7 @@ class HomeViewModel: ObservableObject {
     @Published var egg: AppLaunchEggData? = nil             // 계란 상태
     @Published var outingStart: OutingStartData? = nil      // 외출 시작 가능 여부
     @Published var unreadCount: Int = 0                     // 읽지 않은 알림 수
-    @Published var isLoading: Bool = false                  // 로딩 중 여부
+    @Published var isLoading: Bool = true                   // 로딩 중 여부
     @Published var errorMessage: String? = nil              // 에러 메시지
 
     init() {

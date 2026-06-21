@@ -15,9 +15,11 @@ class OutingService {
     // MARK: - Moya Provider
     // AuthPlugin: accessToken 헤더 자동 첨부
     // TokenRefreshPlugin: 401 시 자동 재발급
+    // NetworkLoggerPlugin: 상세 요청/응답 로그
     private let provider = MoyaProvider<OutingRouter>(plugins: [
         AuthPlugin(),
-        TokenRefreshPlugin()
+        TokenRefreshPlugin(),
+        NetworkLoggerPlugin()
     ])
 
     // MARK: - 외출 시작 API 호출 (3.7)

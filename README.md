@@ -1,5 +1,5 @@
 # 🐣 계란주의보
-<img width="218" height="216" alt="[home_egg.pdf](https://github.com/user-attachments/files/29172141/home_egg.pdf)
+<img src="https://github.com/user-attachments/assets/실제이미지URL" width="218" height="216" alt="계란주의보" />
 " />
 
 

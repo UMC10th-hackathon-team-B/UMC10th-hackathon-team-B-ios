@@ -7,10 +7,10 @@ struct OutingEndConfirmView: View {
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
-            EggCharacterView(
-                exposureLevel: 2,
-                statusMessage: "" // 텍스트 없이
-            )
+            Image("home_egg")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 218, height: 216)
             Text("외출을 종료할까요?")
                 .font(.semiBold20)
                 .foregroundStyle(.text01)

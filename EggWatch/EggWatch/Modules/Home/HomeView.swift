@@ -11,9 +11,6 @@ struct HomeView: View {
     @State private var showLogout: Bool = false
     @State private var showUVNotAvailable: Bool = false
 
-    private var isAfter8pm: Bool {
-        Calendar.current.component(.hour, from: Date()) >= 20
-    }
 
     // API 날씨 데이터 → WeatherInfoCard용 WeatherInfo 변환
     private var currentWeather: WeatherInfo {
@@ -72,10 +69,15 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 WeatherInfoCard(weather: currentWeather)
                     .padding(.bottom, 70)
-                EggCharacterView(
-                    exposureLevel: exposureLevel,
-                    statusMessage: statusMessage
-                )
+                VStack(spacing: 20) {
+                    Image("home_egg")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 218, height: 216)
+                    Text(statusMessage)
+                        .font(.regular14)
+                        .foregroundStyle(Color.text01)
+                }
             }
             .padding(.horizontal, 43)
             Spacer()
@@ -107,7 +109,7 @@ struct HomeView: View {
     private var homeActionButtons: some View {
         HStack(spacing: 0) {
             Button(action: {
-                if isAfter8pm {
+                if viewModel.outingStart?.canStart == false {
                     showUVNotAvailable = true
                 } else {
                     onOutingStart()

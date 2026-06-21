@@ -28,12 +28,12 @@ struct AlertView: View {
         HStack(spacing: 8) {
             Button(action: onBack) {
                 Image(systemName: "chevron.left")
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.text01)
                     .frame(width: 24, height: 24)
             }
             Text("알림")
                 .font(.medium16)
-                .foregroundStyle(.black)
+                .foregroundStyle(.text01)
             Spacer()
         }
         .padding(.vertical, 24)

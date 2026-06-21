@@ -9,14 +9,14 @@ struct WeatherInfoCard: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text(weather.location)
                     .font(.medium16)
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(.text01)
                 HStack(alignment: .center, spacing: 10) {
                     Text("\(weather.temperature)º")
                         .font(.semiBold20)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.text01)
                     Text(weather.condition)
                         .font(.regular12)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.text01)
                 }
             }
             .padding(.horizontal, 18)
@@ -25,14 +25,14 @@ struct WeatherInfoCard: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text("자외선 지수")
                     .font(.medium16)
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(.text01)
                 HStack(alignment: .center, spacing: 10) {
                     Text("\(weather.uvIndex)")
                         .font(.semiBold20)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.text01)
                     Text(weather.uvLevel.rawValue)
                         .font(.regular12)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.text01)
                 }
             }
             .padding(.horizontal, 18)
@@ -42,10 +42,10 @@ struct WeatherInfoCard: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("외출 시간")
                         .font(.medium16)
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(.text01)
                     Text(formattedOutingTime(seconds))
                         .font(.semiBold20)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.text01)
                 }
                 .padding(.horizontal, 18)
                 .padding(.vertical, 10)

@@ -18,15 +18,6 @@ struct ContentView: View {
         Group {
             switch router.currentScreen {
 
-            // 스플래시
-            case .splash:
-                SplashView()
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            router.goToAgreement()
-                        }
-                    }
-
             // 약관 동의
             case .agreement:
                 AgreementView(signupToken: nil, onConfirm: { router.goToHome() })

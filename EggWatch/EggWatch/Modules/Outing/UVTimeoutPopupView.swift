@@ -34,13 +34,13 @@ struct UVTimeoutPopupView: View {
     private var popupTitle: some View {
         Text("자외선 관리 시간이 종료됐어요.")
             .font(.semiBold18)
-            .foregroundStyle(.black)
+            .foregroundStyle(.text01)
             .multilineTextAlignment(.center)
     }
 
     private var popupMessage: some View {
         Text("저녁 8시 이후에는 자외선 노출 위험이 낮아져\n외출 모드를 계속 사용할 수 없어요.")
-            .font(.regular12)
+            .font(.regular14)
             .foregroundStyle(Color.gray02)
             .multilineTextAlignment(.center)
     }
@@ -49,16 +49,11 @@ struct UVTimeoutPopupView: View {
         Button(action: onConfirm) {
             Text("확인하고 홈으로")
                 .font(.medium16)
-                .foregroundStyle(.black)
+                .foregroundStyle(.text01)
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
         }
-        .glassEffect(
-            .regular
-                .tint(Color.yellow01.opacity(0.6))
-                .interactive(),
-            in: .capsule
-        )
+        .background(Color.yellow02, in: .capsule)
     }
 }
 

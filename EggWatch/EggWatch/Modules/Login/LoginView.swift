@@ -25,10 +25,10 @@ struct LoginView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Spacer()
             eggImage
+                .padding(.top, 195)
+                .padding(.bottom, 20)
             titleGroup
-                .padding(.top, 20)
             Spacer()
             kakaoButton
         }
@@ -43,10 +43,10 @@ struct LoginView: View {
     
     //MARK: - 계란 이미지
     private var eggImage: some View {
-        Image("egg1")
+        Image("home_egg")
             .resizable()    //이미지 크기 바꿔도 된다고 허락하는 거
             .scaledToFit()  //이미지 비율 유지
-            .frame(width: 160, height: 216)
+            .frame(width: 218, height: 216)
     }
     
     //MARK: - 타이틀 / 서브타이틀
@@ -54,10 +54,10 @@ struct LoginView: View {
         VStack(spacing: 6) {
             Text("계란 주의보")
                 .font(.semiBold20)
-                .foregroundStyle(Color.black)
+                .foregroundStyle(.text01)
             Text("오늘도 계란이를 지켜볼까요?")
                 .font(.regular14)
-                .foregroundStyle(Color.black)
+                .foregroundStyle(.text01)
         }
     }
     
@@ -69,14 +69,8 @@ struct LoginView: View {
                 Image("kakao")
                     .resizable()
                     .scaledToFit()
+                    .frame(width: 320, height: 48)
         }
-        .glassEffect(
-            .regular
-                .tint(Color.yellow01.opacity(0.6))
-                .interactive(),
-            in: .capsule
-        )
-        .padding(.horizontal, 41)
         .padding(.bottom, 80)
     }
     

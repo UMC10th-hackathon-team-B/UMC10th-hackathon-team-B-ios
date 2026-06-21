@@ -11,15 +11,15 @@ struct AlertCardView: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(item.title)
-                        .font(.medium12)
-                        .foregroundStyle(.black)
+                        .font(.medium13)
+                        .foregroundStyle(.text01)
                     Spacer()
                     Text(formattedDateTime)
                         .font(.regular9)
                         .foregroundStyle(Color.gray02)
                 }
                 Text(item.content)
-                    .font(.regular9)
+                    .font(.regular11)
                     .foregroundStyle(Color.gray02)
             }
         }

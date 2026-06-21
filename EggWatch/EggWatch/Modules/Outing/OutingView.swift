@@ -186,23 +186,18 @@ struct OutingView: View {
                     viewModel.showEndConfirm = true               // 외출 종료 확인 팝업 표시
                 }) {
                     Text("외출 종료")
-                        .font(.semiBold16)
-                        .foregroundStyle(.black)
+                        .font(.medium16)
+                        .foregroundStyle(.text01)
                         .frame(maxWidth: .infinity)
                         .frame(height: 48)
-                        .glassEffect(
-                            .regular
-                                .tint(Color.yellow01.opacity(0.6))
-                                .interactive(),
-                            in: .capsule
-                        )
+                        .background(Color.yellow02, in: .capsule)
                 }
                 Button(action: {
                     viewModel.showSunscreenConfirm = true         // 선크림 확인 팝업 표시
                 }) {
                     Text("자외선 차단제 기록")
-                        .font(.semiBold16)
-                        .foregroundStyle(.black)
+                        .font(.medium16)
+                        .foregroundStyle(.text01)
                         .frame(width: 164, height: 48)
                         .glassEffect(
                             .regular

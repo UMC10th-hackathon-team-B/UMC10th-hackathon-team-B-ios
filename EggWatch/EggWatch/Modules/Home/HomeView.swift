@@ -11,9 +11,6 @@ struct HomeView: View {
     @State private var showLogout: Bool = false
     @State private var showUVNotAvailable: Bool = false
 
-    private var isAfter8pm: Bool {
-        Calendar.current.component(.hour, from: Date()) >= 20
-    }
 
     // API 날씨 데이터 → WeatherInfoCard용 WeatherInfo 변환
     private var currentWeather: WeatherInfo {
@@ -107,7 +104,7 @@ struct HomeView: View {
     private var homeActionButtons: some View {
         HStack(spacing: 0) {
             Button(action: {
-                if isAfter8pm {
+                if viewModel.outingStart?.canStart == false {
                     showUVNotAvailable = true
                 } else {
                     onOutingStart()

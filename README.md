@@ -1,5 +1,6 @@
 # 🐣 계란주의보
-<img width="257" height="136" alt="스크린샷 2026-01-09 오전 12 29 23" src="https://github.com/user-attachments/assets/b43ab4ef-564e-4f16-b2d7-0b3b5224af8d" />
+<img width="257" height="136" alt="[home_egg.pdf](https://github.com/user-attachments/files/29172141/home_egg.pdf)
+" />
 
 
 > 계란주의보: 현재 위치의 자외선 지수와 날씨를 기반으로 맞춤형 알림을 제공하고, 선크림 도포 상태를 귀여운 계란 캐릭터로 시각화하는 iOS 앱입니다.
